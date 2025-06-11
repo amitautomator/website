@@ -1,9 +1,12 @@
 import type { NextConfig } from "next";
 
-// The NextConfig object is correctly typed and structured
 const nextConfig: NextConfig = {
   images: {
-    domains: ["assets.aceternity.com"],
+    domains: [
+      "assets.aceternity.com",
+      "images.unsplash.com",
+      "images.remotePatterns",
+    ],
   },
 
   typescript: {

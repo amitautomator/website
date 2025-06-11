@@ -98,8 +98,8 @@ export default function ExpandableCard() {
                       {active.description}
                     </motion.p>
                   </div>
-
-                  {/* <motion.a
+                  {/* 
+                  <motion.a
                     layout
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -135,7 +135,7 @@ export default function ExpandableCard() {
             layoutId={`card-${card.title}-${id}`}
             key={card.title}
             onClick={() => setActive(card)}
-            className="flex cursor-pointer flex-col rounded-xl p-4 hover:bg-neutral-50 dark:hover:bg-neutral-800"
+            className="flex cursor-pointer flex-col rounded-xl p-4 hover:bg-neutral-50"
           >
             <div className="flex h-fit w-auto flex-col gap-4 shadow-2xl shadow-neutral-200">
               <motion.div layoutId={`image-${card.title}-${id}`}>

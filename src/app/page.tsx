@@ -2,17 +2,16 @@
 
 import React from "react";
 import Image from "next/image";
-// import SplitText from "@/components/SplitText";
 import Link from "next/link";
-
 import dynamic from "next/dynamic";
 
 import AnimatedContent from "@/components/AnimatedContent ";
-
 const ExpandableCard = dynamic(() => import("@/components/ExpandableCard"));
+const InfiniteMovingCards = dynamic(
+  () => import("@/components/InfiniteMovingCards"),
+);
 
-import { InfiniteMovingCards } from "@/components/InfiniteMovingCards";
-
+import { CardBody, CardContainer, CardItem } from "@/components/3DCard";
 function Page() {
   //
   const testimonials = [
@@ -60,15 +59,29 @@ function Page() {
     },
   ];
 
-  //
-  //
-  //
+  const Dcard = [
+    {
+      title: "Step 1: Consultation and Needs Assessment",
+      sub: "We listen to your challenges and goals.",
+      img: "/CO.svg",
+    },
+    {
+      title: "Step 2: Custom Solution Design and Planning",
+      sub: "Our team crafts a tailored automation strategy.",
+      img: "/CS.svg",
+    },
+    {
+      title: "Step 3: Implementation and Integration",
+      sub: "We seamlessly integrate solutions into your workflow.",
+      img: "/IN.svg",
+    },
+  ];
   //
 
   return (
     <>
       <AnimatedContent
-        distance={200}
+        distance={100}
         direction="horizontal"
         reverse={true}
         config={{ tension: 80, friction: 20 }}
@@ -93,7 +106,8 @@ function Page() {
             </div>
             <div className="mt-4 w-full text-start text-sm text-gray-600 lg:text-lg">
               Discover fast, flexible features that accelerate growth across
-              every layer of your business
+              every layer of your business — from operations to customer
+              experience — with intelligent, scalable automation.
             </div>
           </div>
           <div className="flex items-center justify-center">
@@ -110,7 +124,7 @@ function Page() {
       </AnimatedContent>
 
       <AnimatedContent
-        distance={200}
+        distance={100}
         direction="horizontal"
         reverse={false}
         config={{ tension: 80, friction: 20 }}
@@ -148,16 +162,43 @@ function Page() {
           </div>
         </section>
       </AnimatedContent>
+
       <section className="mt-3">
-        <div className="text-center text-2xl font-bold text-gray-700 lg:text-3xl">
-          Transform Your Business with Automation Solutions
+        <div className="text-center">
+          <div className="text-2xl font-bold text-gray-700 lg:text-3xl">
+            Transform Your Business with Automation Solutions
+          </div>
+          <div>
+            Our process begins with a thorough consultation to understand your
+            unique business needs. We then tailor automation solutions that
+            enhance efficiency and communication.
+          </div>
         </div>
-        <div>
-          Our process begins with a thorough consultation to understand your
-          unique business needs. We then tailor automation solutions that
-          enhance efficiency and communication.
+        <div className="gap-8 sm:flex">
+          {Dcard.map((card, index) => (
+            <CardContainer key={index} className="inter-var">
+              <CardBody className="group/card relative flex h-fit w-full items-center justify-center bg-transparent p-10 shadow-2xl">
+                <CardItem translateZ="50" className="relative z-20">
+                  <Image
+                    src={card.img}
+                    height="800"
+                    width="800"
+                    className="h-fit w-full object-contain"
+                    alt="thumbnail"
+                  />
+                  <div className="mt-3 text-center">
+                    <h2 className="text-2xl font-bold text-gray-700 lg:text-3xl">
+                      {card.title}
+                    </h2>
+                    <p className="text-sm text-gray-500">{card.sub}</p>
+                  </div>
+                </CardItem>
+              </CardBody>
+            </CardContainer>
+          ))}
         </div>
       </section>
+
       <section className="mt-3">
         <div className="text-center text-2xl font-bold text-gray-700 lg:text-3xl">
           Seamless Email Integration for Enhanced Communication and
