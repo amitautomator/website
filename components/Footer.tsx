@@ -37,7 +37,7 @@ function Footer() {
     },
   ];
 
-  const navMenu = ["Home", "About Us", "Services", "Contact Us"];
+  const navMenu = ["Home", "Services", "About Us", "Contact Us"];
 
   return (
     <footer className="container mx-auto my-3 px-7">
@@ -71,10 +71,10 @@ function Footer() {
           </div>
         </div>
 
-        <div className="mx-auto">
+        <div className="mx-auto py-5">
           <div className="px-3 text-lg font-bold">Quick Links</div>
           {
-            <div className="flex flex-col px-3">
+            <div className="flex flex-col p-3">
               {navMenu.map((item, index) => {
                 const path =
                   index === 0

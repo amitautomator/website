@@ -1,6 +1,16 @@
 "use client";
 import React from "react";
-import * as LucideIcons from "lucide-react";
+import {
+  LayoutDashboard,
+  Table,
+  Repeat,
+  BarChart3,
+  ShieldCheck,
+  LifeBuoy,
+  LayoutGrid,
+  FileInput,
+} from "lucide-react";
+
 import {
   Card,
   CardHeader,
@@ -12,6 +22,18 @@ import {
 } from "@/components/ui/card";
 
 function Page() {
+  // Create a mapping of icon names to components to fix the TypeScript error
+  const LucideIcons = {
+    LayoutDashboard,
+    Table,
+    Repeat,
+    BarChart3,
+    ShieldCheck,
+    LifeBuoy,
+    LayoutGrid,
+    FileInput,
+  };
+
   interface Service {
     name: string;
     icon: keyof typeof LucideIcons;
@@ -71,7 +93,7 @@ function Page() {
 
   return (
     <>
-      <section className="container mx-auto">
+      <section className="container mx-auto mb-7">
         <div className="flex flex-col items-center">
           <div className="mb-4 text-4xl font-bold">Our Services</div>
           <div className="px-4 text-center text-xl font-medium">
@@ -81,24 +103,18 @@ function Page() {
         </div>
         <div className="mx-6 mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {services.map((service, index) => {
-            const IconComponent = LucideIcons[
-              service.icon
-            ] as React.ElementType;
+            const Icon = LucideIcons[service.icon];
             return (
               <Card
                 key={index}
                 className="flex flex-col gap-4 p-6 transition-shadow hover:shadow-lg"
               >
                 <CardHeader className="flex flex-row items-center gap-4">
-                  {IconComponent && (
-                    <IconComponent
-                      className="text-primary h-10 w-10"
-                      aria-label={service.name}
-                    />
-                  )}
-                  <div>
-                    <CardTitle>{service.name}</CardTitle>
-                  </div>
+                  <Icon
+                    className="text-primary h-10 w-10"
+                    aria-label={service.name}
+                  />
+                  <CardTitle className="text-xl">{service.name}</CardTitle>
                 </CardHeader>
                 <CardDescription className="px-6">
                   {service.description}

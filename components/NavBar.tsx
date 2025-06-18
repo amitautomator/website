@@ -90,6 +90,7 @@ function NavBar() {
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
               <Button
+                type="button"
                 variant="outline"
                 className="hover:bg-red-500 hover:text-white dark:hover:bg-red-500 dark:hover:text-white"
                 aria-hidden="true"
