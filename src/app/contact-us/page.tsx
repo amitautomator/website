@@ -1,7 +1,9 @@
 "use client";
 
-import React from "react";
 import Image from "next/image";
+
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+
 import { TypewriterEffectSmooth } from "@/components/typewriter-effect";
 
 export default function Page() {
@@ -25,20 +27,10 @@ export default function Page() {
   ];
 
   return (
-    <div>
-      <div className="mx-auto my-4 h-[40%] place-content-center gap-3 px-5 py-6 sm:grid sm:grid-cols-2">
-        <div className="text-center">
-          <div className="mb-6 flex items-center justify-start gap-2">
-            <Image
-              src="/Logo.png"
-              alt="Logo"
-              width={200}
-              height={200}
-              className="h-10 w-10"
-            />
-            <TypewriterEffectSmooth words={words} />
-            <span className="text-4xl font-extrabold text-blue-500"></span>
-          </div>
+    <section className="container mx-auto">
+      <TypewriterEffectSmooth words={words} />
+      <div className="mx-auto my-4 h-[40%] place-content-center gap-2 px-5 py-6 sm:grid sm:grid-cols-2">
+        <div className="px-4">
           <div className="text-start text-base font-semibold text-gray-700">
             Ready to streamline your business operations with Google Workspace
             automation? Contact us today for a free consultation and discover
@@ -102,8 +94,18 @@ export default function Page() {
             </div>
           </div>
         </div>
-        <div className="text-center">Black</div>
+
+        <div className="px-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-2xl font-bold text-gray-800">
+                Send Us a Message
+              </CardTitle>
+            </CardHeader>
+            <CardContent className=""></CardContent>
+          </Card>
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

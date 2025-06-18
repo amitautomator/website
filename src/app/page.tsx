@@ -1,20 +1,24 @@
 "use client";
 
-import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 
-import AnimatedContent from "@/components/AnimatedContent ";
+const AnimatedContent = dynamic(() => import("@/components/AnimatedContent"), {
+  ssr: false,
+});
+
 const ExpandableCard = dynamic(() => import("@/components/ExpandableCard"), {
   ssr: false,
 });
+
 const InfiniteMovingCards = dynamic(
   () => import("@/components/InfiniteMovingCards"),
   { ssr: false },
 );
 
 import { CardBody, CardContainer, CardItem } from "@/components/3DCard";
+
 function Page() {
   //
   const testimonials = [
@@ -114,11 +118,11 @@ function Page() {
           <div className="flex items-center justify-center">
             <Image
               src={"/H2.png"}
-              alt="Test"
+              alt="Top Image"
               width={400}
               height={400}
               priority={true}
-              sizes="(max-width: 768px) 100vw, 400px"
+              className="h-auto w-full max-w-[360px]"
             />
           </div>
         </section>
@@ -176,10 +180,10 @@ function Page() {
           </div>
         </div>
 
-        <div className="gap-8 sm:flex">
+        <div className="md:flex md:gap-8">
           {Dcard.map((card, index) => (
             <CardContainer key={index} className="inter-var">
-              <CardBody className="group/card relative flex h-fit w-full items-center justify-center bg-transparent px-9 py-10 shadow-2xl">
+              <CardBody className="group/card relative flex h-fit w-fit items-center justify-center bg-transparent px-9 py-10 shadow-2xl">
                 <CardItem translateZ="50" className="relative z-20">
                   <Image
                     src={card.img}
@@ -187,6 +191,7 @@ function Page() {
                     width="800"
                     className="h-60 w-full object-contain"
                     alt="card"
+                    priority={false}
                   />
                   <div className="mt-3 text-center">
                     <h2 className="text-2xl font-bold text-gray-700">

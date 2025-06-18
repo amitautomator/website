@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+
 import {
   LayoutDashboard,
   Table,
@@ -14,11 +14,8 @@ import {
 import {
   Card,
   CardHeader,
-  // CardFooter,
   CardTitle,
-  // CardAction,
   CardDescription,
-  // CardContent,
 } from "@/components/ui/card";
 
 function Page() {
