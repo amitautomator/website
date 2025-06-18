@@ -3,14 +3,14 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   images: {
     domains: [
+      "images.remotePatterns",
       "assets.aceternity.com",
       "images.unsplash.com",
-      "images.remotePatterns",
     ],
   },
 
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
 };
 

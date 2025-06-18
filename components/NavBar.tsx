@@ -92,6 +92,7 @@ function NavBar() {
               <Button
                 variant="outline"
                 className="hover:bg-red-500 hover:text-white dark:hover:bg-red-500 dark:hover:text-white"
+                aria-hidden="true"
               >
                 {open ? "" : <Menu />}
               </Button>

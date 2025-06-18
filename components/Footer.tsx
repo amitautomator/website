@@ -30,6 +30,11 @@ function Footer() {
       src: "/youtube.svg",
       alt: "YouTube",
     },
+    {
+      href: "https://wa.me/917210756879?text=I%27m%20interested%20in%20your%20services",
+      src: "/whatsapp.svg",
+      alt: "Whatapp",
+    },
   ];
 
   const navMenu = ["Home", "About Us", "Services", "Contact Us"];
@@ -46,7 +51,7 @@ function Footer() {
             processes within Google Workspace, saving time and resources while
             boosting productivity.
           </div>
-          <div className="flex gap-4 py-4">
+          <div className="flex gap-6 py-4">
             {socialLinks.map(({ href, src, alt }) => (
               <Link
                 key={href}

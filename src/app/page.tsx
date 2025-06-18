@@ -6,9 +6,12 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 
 import AnimatedContent from "@/components/AnimatedContent ";
-const ExpandableCard = dynamic(() => import("@/components/ExpandableCard"));
+const ExpandableCard = dynamic(() => import("@/components/ExpandableCard"), {
+  ssr: false,
+});
 const InfiniteMovingCards = dynamic(
   () => import("@/components/InfiniteMovingCards"),
+  { ssr: false },
 );
 
 import { CardBody, CardContainer, CardItem } from "@/components/3DCard";
@@ -61,22 +64,21 @@ function Page() {
 
   const Dcard = [
     {
-      title: "Step 1: Consultation and Needs Assessment",
-      sub: "We listen to your challenges and goals.",
+      title: "Step 1: Consultation & Needs Assessment",
+      sub: "We take time to understand your goals and challenges.",
       img: "/CO.svg",
     },
     {
-      title: "Step 2: Custom Solution Design and Planning",
-      sub: "Our team crafts a tailored automation strategy.",
+      title: "Step 2: Custom Solution Design",
+      sub: "We craft a tailored strategy to meet your needs.",
       img: "/CS.svg",
     },
     {
-      title: "Step 3: Implementation and Integration",
-      sub: "We seamlessly integrate solutions into your workflow.",
+      title: "Step 3: Implementation & Integration",
+      sub: "Seamlessly integrating solutions into your workflow.",
       img: "/IN.svg",
     },
   ];
-  //
 
   return (
     <>
@@ -90,11 +92,10 @@ function Page() {
         scale={1.5}
         threshold={0.2}
       >
-        <section className="mx-auto h-fit flex-row items-center justify-center px-5 sm:grid sm:grid-cols-2">
+        <section className="mx-auto h-fit flex-row items-center justify-center px-8 sm:grid sm:grid-cols-2">
           <div className="mx-auto flex flex-col items-center justify-center lg:w-2/3">
             <div className="">
               <span className="text-2xl font-bold lg:text-4xl">
-                {/* <span className="text-blue-500">Automate</span> Ideas */}
                 <span className="via-yello-500 bg-gradient-to-r from-red-600 to-green-500 bg-clip-text text-transparent">
                   Automate Ideas
                 </span>
@@ -117,7 +118,7 @@ function Page() {
               width={400}
               height={400}
               priority={true}
-              className="w-full md:h-1/3 md:w-auto lg:h-4/12"
+              sizes="(max-width: 768px) 100vw, 400px"
             />
           </div>
         </section>
@@ -163,10 +164,10 @@ function Page() {
         </section>
       </AnimatedContent>
 
-      <section className="mt-3">
+      <section className="mx-auto my-5 flex h-fit flex-col items-center justify-between px-5">
         <div className="text-center">
           <div className="text-2xl font-bold text-gray-700 lg:text-3xl">
-            Transform Your Business with Automation Solutions
+            Revolutionize Your Workflow in 3 Strategic Steps
           </div>
           <div>
             Our process begins with a thorough consultation to understand your
@@ -174,23 +175,24 @@ function Page() {
             enhance efficiency and communication.
           </div>
         </div>
+
         <div className="gap-8 sm:flex">
           {Dcard.map((card, index) => (
             <CardContainer key={index} className="inter-var">
-              <CardBody className="group/card relative flex h-fit w-full items-center justify-center bg-transparent p-10 shadow-2xl">
+              <CardBody className="group/card relative flex h-fit w-full items-center justify-center bg-transparent px-9 py-10 shadow-2xl">
                 <CardItem translateZ="50" className="relative z-20">
                   <Image
                     src={card.img}
                     height="800"
                     width="800"
-                    className="h-fit w-full object-contain"
-                    alt="thumbnail"
+                    className="h-60 w-full object-contain"
+                    alt="card"
                   />
                   <div className="mt-3 text-center">
-                    <h2 className="text-2xl font-bold text-gray-700 lg:text-3xl">
+                    <h2 className="text-2xl font-bold text-gray-700">
                       {card.title}
                     </h2>
-                    <p className="text-sm text-gray-500">{card.sub}</p>
+                    <p className="mt-2 text-[15px] text-gray-600">{card.sub}</p>
                   </div>
                 </CardItem>
               </CardBody>
@@ -199,15 +201,14 @@ function Page() {
         </div>
       </section>
 
-      <section className="mt-3">
-        <div className="text-center text-2xl font-bold text-gray-700 lg:text-3xl">
+      <section className="my-9 bg-white">
+        <div className="pt-4 text-center text-2xl font-bold text-gray-700 lg:text-3xl">
           Seamless Email Integration for Enhanced Communication and
           Collaboration
         </div>
         <br />
         <ExpandableCard />
       </section>
-
       <section className="mx-auto my-10 flex w-full max-w-7xl flex-col items-center justify-center px-5">
         <div className="text-center text-2xl font-bold text-gray-700 lg:text-3xl">
           Discover Our Comprehensive Business Automation Solutions Tailored for
@@ -221,10 +222,10 @@ function Page() {
         </div>
         <div className="mt-6 flex w-full max-w-3xl flex-col items-center justify-center gap-4 sm:flex-row">
           <Link
-            href="/solutions"
-            className="w-full rounded-md bg-blue-600 px-4 py-2 text-center text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none sm:w-auto"
+            href="/services"
+            className="w-full rounded-md bg-blue-600 px-4 py-2 text-center text-white hover:bg-[#1d4ed8] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 sm:w-auto"
           >
-            Explore Solutions
+            Explore Services
           </Link>
         </div>
       </section>
