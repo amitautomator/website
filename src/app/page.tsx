@@ -4,13 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 
-const AnimatedContent = dynamic(() => import("@/components/AnimatedContent"), {
-  ssr: false,
-});
+const AnimatedContent = dynamic(() => import("@/components/AnimatedContent"));
 
-const ExpandableCard = dynamic(() => import("@/components/ExpandableCard"), {
-  ssr: false,
-});
+const ExpandableCard = dynamic(() => import("@/components/ExpandableCard"));
 
 const InfiniteMovingCards = dynamic(
   () => import("@/components/InfiniteMovingCards"),
@@ -122,7 +118,7 @@ function Page() {
               width={400}
               height={400}
               priority={true}
-              className="h-auto w-full max-w-[360px]"
+              className="w-full md:h-1/3 md:w-auto lg:h-4/12"
             />
           </div>
         </section>
@@ -189,9 +185,10 @@ function Page() {
                     src={card.img}
                     height="800"
                     width="800"
-                    className="h-60 w-full object-contain"
-                    alt="card"
+                    className="h-fit w-full object-contain"
+                    alt="thumbnail"
                     priority={false}
+                    loading="lazy"
                   />
                   <div className="mt-3 text-center">
                     <h2 className="text-2xl font-bold text-gray-700">
