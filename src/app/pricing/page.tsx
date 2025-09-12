@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Check, MessageCircle, Zap, Crown, Star } from "lucide-react";
 
 function Page() {
-  const [hoveredCard, setHoveredCard] = useState(null);
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
   const whatsappPlans = [
     {
