@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useActionState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Form from "next/form";
 
@@ -73,6 +73,8 @@ export default function Page() {
 
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
+
+  console.log(setIsPending);
 
   return (
     <section className="container mx-auto px-6">

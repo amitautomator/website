@@ -2,12 +2,30 @@ import { connectDB } from "@/src/dbConfig/dbConfig";
 import ContactUs from "@/src/models/contactUsModel";
 import { NextRequest, NextResponse } from "next/server";
 import { sendEmail } from "@/src/helper/mailer";
-  
+import { StatusCodes } from "http-status-codes";
 connectDB();
 
 export async function POST(request: NextRequest) {
   try {
-    const reqBody = await request.json();
+    interface ContactUsRequest {
+      name: string;
+      email: string;
+      contactNo?: string;
+      message: string;
+      designation?: string;
+      companyName?: string;
+      companySize?: string;
+      intrestedIn?: string;
+    }
+
+    if (!name || !email || !message) {
+      return NextResponse.json(
+        { error: "Name, email, and message are required." },
+        { status: 400 },
+      );
+    }
+
+    const reqBody: ContactUsRequest = await request.json();
 
     const {
       name,
@@ -34,7 +52,11 @@ export async function POST(request: NextRequest) {
     const savedContactUs = await contactUs.save();
     console.log(savedContactUs);
 
-    await sendEmail({ email, emailType: "CONTACT" });
+    try {
+      await sendEmail({ email, emailType: "CONTACT" });
+    } catch (emailError) {
+      console.error("Email send failed:", emailError);
+    }
 
     return NextResponse.json(
       {
@@ -42,11 +64,19 @@ export async function POST(request: NextRequest) {
         success: true,
         savedContactUs,
       },
-      { status: 200 },
+      { status: StatusCodes.OK },
     );
-  } catch (error: any) {
-    console.log(error.message);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.log(error.message);
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    } else {
+      console.log("Unknown error", error);
+      return NextResponse.json(
+        { error: "An unexpected error occurred" },
+        { status: 500 },
+      );
+    }
   }
 }
 

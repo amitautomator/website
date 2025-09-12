@@ -84,8 +84,8 @@ function Page() {
 
           <p className="mx-auto max-w-3xl text-xl leading-relaxed text-gray-600">
             My pricing is based on project requirements and complexity. Every
-            project is unique, so let's discuss your needs to get an accurate
-            quote.
+            project is unique, so let&#39;s discuss your needs to get an
+            accurate quote.
           </p>
         </div>
 
@@ -100,10 +100,10 @@ function Page() {
               <div className="grid items-center gap-8 md:grid-cols-2">
                 <div>
                   <p className="mb-6 text-lg leading-relaxed text-gray-700">
-                    Whether it's a small feature or a full-scale application, I
-                    offer flexible pricing tailored to your requirements.
-                    Contact me with your idea and I'll provide a quote based on
-                    scope, timeline, and complexity.
+                    Whether it&#39;s a small feature or a full-scale
+                    application, I offer flexible pricing tailored to your
+                    requirements. Contact me with your idea and I&#39;ll provide
+                    a quote based on scope, timeline, and complexity.
                   </p>
 
                   <div className="mb-6 flex flex-wrap gap-3">
