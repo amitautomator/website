@@ -9,6 +9,7 @@ import {
   LifeBuoy,
   LayoutGrid,
   FileInput,
+  MessageCircle,
 } from "lucide-react";
 
 import {
@@ -29,6 +30,7 @@ function Page() {
     LifeBuoy,
     LayoutGrid,
     FileInput,
+    MessageCircle,
   };
 
   interface Service {
@@ -43,6 +45,12 @@ function Page() {
       icon: "LayoutDashboard",
       description:
         "Design and develop tailored web applications within Google Workspace to solve specific business challenges such as project tracking, CRM systems, and more.",
+    },
+    {
+      name: "WhatsApp Unofficial API",
+      icon: "MessageCircle",
+      description:
+        "Integrate WhatsApp messaging into your applications using an unofficial API. Send and receive messages, automate workflows, build chatbots, and connect WhatsApp communication seamlessly with your business systems.",
     },
     {
       name: "Spreadsheet-Based Tools",

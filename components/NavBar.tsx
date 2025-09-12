@@ -25,13 +25,7 @@ import { Button } from "@/components/ui/button";
 // import { Label } from "@/components/ui/label";
 // import { Input } from "@/components/ui/input";
 
-const navMenu = [
-  "Home",
-  "Services",
-  // "Blog",
-  "About Us",
-  "Contact Us",
-];
+const navMenu = ["Home", "Services", "Pricing", "About Us", "Contact Us"];
 
 function NavBar() {
   const path = usePathname();
