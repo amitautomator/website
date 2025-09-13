@@ -116,7 +116,7 @@ const InfiniteMovingCards = ({
             <blockquote className="relative z-10">
               <div className="mb-6">
                 <span className="relative z-20 text-base leading-relaxed font-medium text-gray-800 italic">
-                  "{item.quote}"
+                  &#34;{item.quote}&#34;
                 </span>
               </div>
 

@@ -18,13 +18,6 @@ export async function POST(request: NextRequest) {
       intrestedIn?: string;
     }
 
-    if (!name || !email || !message) {
-      return NextResponse.json(
-        { error: "Name, email, and message are required." },
-        { status: 400 },
-      );
-    }
-
     const reqBody: ContactUsRequest = await request.json();
 
     const {
@@ -37,6 +30,13 @@ export async function POST(request: NextRequest) {
       companySize,
       intrestedIn,
     } = reqBody;
+
+    if (!name || !email || !message) {
+      return NextResponse.json(
+        { error: "Name, email, and message are required." },
+        { status: 400 },
+      );
+    }
 
     const contactUs = new ContactUs({
       name,
