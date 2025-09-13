@@ -7,7 +7,7 @@ import Image from "next/image";
 const InfiniteMovingCards = ({
   items,
   direction = "left",
-  speed = "fast",
+  speed = "slow",
   pauseOnHover = true,
   className,
 }: {
@@ -116,7 +116,7 @@ const InfiniteMovingCards = ({
             <blockquote className="relative z-10">
               <div className="mb-6">
                 <span className="relative z-20 text-base leading-relaxed font-medium text-gray-800 italic">
-                  &#34;{item.quote}&#34;
+                  {`"${item.quote}"`}
                 </span>
               </div>
 
