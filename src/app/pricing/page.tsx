@@ -10,16 +10,10 @@ function Page() {
     {
       id: 1,
       name: "Basic Plan",
-      price: "₹999",
-      period: "month",
+      price: "₹2,499",
+      period: "Yearly Exclude GST 18%",
       messages: "10,000",
-      features: [
-        "Up to 10,000 messages",
-        "API Access",
-        "Basic Analytics",
-        "Email Support",
-        "99.5% Uptime SLA",
-      ],
+      features: ["Up to 10,000 Credits", "API Access", "Basic Analytics"],
       icon: MessageCircle,
       gradient: "from-blue-500 to-cyan-400",
       popular: false,
@@ -28,17 +22,14 @@ function Page() {
     {
       id: 2,
       name: "Pro Plan",
-      price: "₹1,999",
-      period: "month",
-      messages: "50,000",
+      price: "₹7,680",
+      period: "Yearly Exclude GST 18%",
+      messages: "48,000",
       features: [
-        "Up to 50,000 messages",
+        "Up to 48,000 messages",
         "Priority API Access",
-        "Advanced Analytics",
         "Priority Support",
         "99.9% Uptime SLA",
-        "Webhook Support",
-        "Custom Templates",
       ],
       icon: Zap,
       gradient: "from-purple-500 to-pink-500",
@@ -48,18 +39,13 @@ function Page() {
     {
       id: 3,
       name: "Business Plan",
-      price: "₹2,999",
-      period: "month",
-      messages: "100,000",
+      price: "₹12,000",
+      period: "Yearly Exclude GST 18%",
+      messages: "Unlimited",
       features: [
-        "Up to 100,000 messages",
         "Premium API Access",
         "Real-time Analytics",
-        "24/7 Phone Support",
-        "99.95% Uptime SLA",
-        "Advanced Webhooks",
         "Custom Integrations",
-        "Dedicated Account Manager",
       ],
       icon: Crown,
       gradient: "from-orange-500 to-red-500",
@@ -84,8 +70,8 @@ function Page() {
 
           <p className="mx-auto max-w-3xl text-xl leading-relaxed text-gray-600">
             My pricing is based on project requirements and complexity. Every
-            project is unique, so let&#39;s discuss your needs to get an
-            accurate quote.
+            project is unique, so let's discuss your needs to get an accurate
+            quote.
           </p>
         </div>
 
@@ -100,10 +86,10 @@ function Page() {
               <div className="grid items-center gap-8 md:grid-cols-2">
                 <div>
                   <p className="mb-6 text-lg leading-relaxed text-gray-700">
-                    Whether it&#39;s a small feature or a full-scale
-                    application, I offer flexible pricing tailored to your
-                    requirements. Contact me with your idea and I&#39;ll provide
-                    a quote based on scope, timeline, and complexity.
+                    Whether it's a small feature or a full-scale application, I
+                    offer flexible pricing tailored to your requirements.
+                    Contact me with your idea and I'll provide a quote based on
+                    scope, timeline, and complexity.
                   </p>
 
                   <div className="mb-6 flex flex-wrap gap-3">
@@ -111,10 +97,10 @@ function Page() {
                       Web Applications
                     </span>
                     <span className="rounded-full bg-green-100 px-4 py-2 text-sm font-medium text-green-700">
-                      Mobile Apps
+                      Google Sheet Automation With WhatsApp
                     </span>
                     <span className="rounded-full bg-purple-100 px-4 py-2 text-sm font-medium text-purple-700">
-                      API Development
+                      Custom Web Forms
                     </span>
                     <span className="rounded-full bg-orange-100 px-4 py-2 text-sm font-medium text-orange-700">
                       Custom Solutions
@@ -223,9 +209,7 @@ function Page() {
                         <div className="text-2xl font-bold text-gray-900">
                           {plan.messages}
                         </div>
-                        <div className="text-sm text-gray-600">
-                          messages per month
-                        </div>
+                        <div className="text-sm text-gray-600">Credits</div>
                       </div>
                     </div>
 
@@ -261,7 +245,7 @@ function Page() {
         </div>
 
         {/* Bottom CTA */}
-        <div className="rounded-2xl border border-white/50 bg-white/50 p-8 text-center shadow-lg backdrop-blur-sm">
+        <div className="rounded-2xl border border-gray-200 bg-gray-50 p-8 text-center shadow-lg backdrop-blur-sm">
           <h3 className="mb-4 text-2xl font-bold text-gray-900">
             Need Enterprise Solutions?
           </h3>
