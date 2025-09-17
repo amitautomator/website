@@ -73,19 +73,28 @@ export default function Page() {
     message: "",
   });
 
-  const [alerts, setAlerts] = useState([]);
+  const [alerts, setAlerts] = useState<AlertItem[]>([]);
 
-  const addAlert = (type, message, duration = 3000) => {
+  type AlertType = "success" | "error" | "warning" | "info";
+
+  interface AlertItem {
+    id: number;
+    type: AlertType;
+    message: string;
+    duration?: number;
+  }
+
+  const addAlert = (type: AlertType, message: string, duration = 3000) => {
     const id = Date.now();
     setAlerts((prev) => [...prev, { id, type, message, duration }]);
   };
 
-  const removeAlert = (id) => {
+  const removeAlert = (id: number) => {
     setAlerts((prev) => prev.filter((alert) => alert.id !== id));
   };
 
   const handleSubmit = async () => {
-    console.log("Submitting form with data:", formData);
+    // console.log("Submitting form with data:", formData);
 
     setIsPending(true);
 

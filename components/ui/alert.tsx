@@ -1,7 +1,21 @@
 import { CheckCircle2, AlertCircle, Info, X } from "lucide-react";
 import { useEffect } from "react";
 
-export const Alert = ({ type, message, onClose, duration = 5000 }) => {
+type AlertType = "success" | "error" | "warning" | "info";
+
+interface AlertProps {
+  type: AlertType;
+  message: string;
+  onClose: () => void;
+  duration?: number;
+}
+
+export const Alert = ({
+  type,
+  message,
+  onClose,
+  duration = 5000,
+}: AlertProps) => {
   useEffect(() => {
     if (duration && duration > 0) {
       const timer = setTimeout(() => {

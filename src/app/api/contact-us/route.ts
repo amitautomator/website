@@ -5,8 +5,8 @@ import axios from "axios";
 export async function POST(request: NextRequest) {
   try {
     const data = await request.json();
-    console.log("Received data:", data);
-    console.log(process.env.GOOGLE_APPS_SCRIPT_URL);
+    // console.log("Received data:", data);
+    // console.log(process.env.GOOGLE_APPS_SCRIPT_URL);
 
     if (!process.env.GOOGLE_APPS_SCRIPT_URL) {
       console.error("GOOGLE_APPS_SCRIPT_URL is not defined");
