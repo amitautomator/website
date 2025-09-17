@@ -1,12 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { StatusCodes } from "http-status-codes";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 
 export async function POST(request: NextRequest) {
   try {
     const data = await request.json();
-    // console.log("Received data:", data);
-    // console.log(process.env.GOOGLE_APPS_SCRIPT_URL);
 
     if (!process.env.GOOGLE_APPS_SCRIPT_URL) {
       console.error("GOOGLE_APPS_SCRIPT_URL is not defined");
@@ -30,23 +28,45 @@ export async function POST(request: NextRequest) {
       { success: true, result: response.data },
       { status: 200 },
     );
-  } catch (err) {
-    const error = err as AxiosError; // type assertion
-    console.error("Proxy error:", error.response?.data || error.message);
+  } catch (err: unknown) {
+    // Check if err is an object and has 'response'
+    if (typeof err === "object" && err !== null && "response" in err) {
+      const axiosError = err as {
+        response?: {
+          data?: { message?: string };
+          status?: number;
+        };
+        message?: string;
+      };
 
-    interface ErrorResponseData {
-      message?: string;
-      [key: string]: unknown;
+      console.error(
+        "Proxy error:",
+        axiosError.response?.data || axiosError.message,
+      );
+
+      return NextResponse.json(
+        {
+          success: false,
+          error:
+            axiosError.response?.data?.message ||
+            "Failed to submit form. Please try again.",
+        },
+        {
+          status:
+            axiosError.response?.status || StatusCodes.INTERNAL_SERVER_ERROR,
+        },
+      );
     }
 
-    const errorData = error.response?.data as ErrorResponseData | undefined;
+    // Fallback for unknown error shape
+    console.error("Unexpected error:", err);
 
     return NextResponse.json(
       {
         success: false,
-        error: errorData?.message || "Failed to submit form. Please try again.",
+        error: "An unexpected error occurred.",
       },
-      { status: error.response?.status || StatusCodes.INTERNAL_SERVER_ERROR },
+      { status: StatusCodes.INTERNAL_SERVER_ERROR },
     );
   }
 }
