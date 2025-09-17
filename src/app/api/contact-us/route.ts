@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { StatusCodes } from "http-status-codes";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 export async function POST(request: NextRequest) {
   try {
@@ -30,16 +30,23 @@ export async function POST(request: NextRequest) {
       { success: true, result: response.data },
       { status: 200 },
     );
-  } catch (error) {
-    console.error("Proxy error:", error?.response?.data || error.message);
+  } catch (err) {
+    const error = err as AxiosError; // type assertion
+    console.error("Proxy error:", error.response?.data || error.message);
+
+    interface ErrorResponseData {
+      message?: string;
+      [key: string]: unknown;
+    }
+
+    const errorData = error.response?.data as ErrorResponseData | undefined;
+
     return NextResponse.json(
       {
         success: false,
-        error:
-          error?.response?.data?.message ||
-          "Failed to submit form. Please try again.",
+        error: errorData?.message || "Failed to submit form. Please try again.",
       },
-      { status: error?.response?.status || 500 },
+      { status: error.response?.status || StatusCodes.INTERNAL_SERVER_ERROR },
     );
   }
 }
