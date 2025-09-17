@@ -102,12 +102,12 @@ function Footer() {
         <p className="font-semibold text-gray-600">
           © 2025 Automate Ideas. All rights reserved.
         </p>
-        <Link
+        {/* <Link
           href="/privacy-policy"
           className="font-semibold text-blue-500 hover:underline"
         >
           Privacy Policy
-        </Link>
+        </Link> */}
       </div>
     </footer>
   );

@@ -14,20 +14,18 @@ export const sendEmail = async ({ email, emailType }: SendEmailProps) => {
     }
 
     const transporter = nodemailer.createTransport({
-      host: "smtp.example.com", // Replace with your SMTP host
+      host: "smtp.example.com",
       port: 587,
-      secure: false, // true for 465, false for others (like 587)
+      secure: false,
       auth: {
         user: process.env.SMTP_USER as string,
         pass: process.env.SMTP_PASS as string,
       },
     });
-
     const subject =
       emailType === "VERIFY"
         ? "Verify Your Email"
         : "Thank You for Contacting Us!";
-
     const text =
       emailType === "VERIFY"
         ? "Please verify your email by clicking the link."

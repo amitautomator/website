@@ -1,19 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import axios from "axios";
+import { useState } from "react";
 import Image from "next/image";
-import Form from "next/form";
-
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Alert } from "@/components/ui/alert";
+
 import {
   Select,
   SelectContent,
@@ -23,11 +18,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
 import { TypewriterEffectSmooth } from "@/components/typewriter-effect";
 import { Textarea } from "@/components/ui/textarea";
-
-// import { submitContactForm } from "@/src/actions/contact-action";
 
 export default function Page() {
   const words = [
@@ -69,16 +61,93 @@ export default function Page() {
   ];
 
   const [isPending, setIsPending] = useState(false);
-  // const [state, setState] = useActionState(submitContactForm);
 
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const [formData, setFormData] = useState({
+    name: "",
+    contactNo: "",
+    email: "",
+    designation: "",
+    companyName: "",
+    companySize: "",
+    interestedIn: "",
+    message: "",
+  });
 
-  console.log(setIsPending);
+  const [alerts, setAlerts] = useState([]);
+
+  const addAlert = (type, message, duration = 3000) => {
+    const id = Date.now();
+    setAlerts((prev) => [...prev, { id, type, message, duration }]);
+  };
+
+  const removeAlert = (id) => {
+    setAlerts((prev) => prev.filter((alert) => alert.id !== id));
+  };
+
+  const handleSubmit = async () => {
+    console.log("Submitting form with data:", formData);
+
+    setIsPending(true);
+
+    const cleanedData = {
+      name: formData.name.trim(),
+      contactNo: formData.contactNo.trim(),
+      email: formData.email.trim(),
+      designation: formData.designation.trim(),
+      companyName: formData.companyName.trim(),
+      companySize: formData.companySize.trim(),
+      interestedIn: formData.interestedIn.trim(),
+      message: formData.message.trim(),
+    };
+
+    // Basic validation
+    if (!cleanedData.name || !cleanedData.email || !cleanedData.message) {
+      addAlert("error", "Please fill in all required fields!");
+      setIsPending(false);
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      addAlert("warning", "Please enter a valid email address!");
+      return;
+    }
+
+    try {
+      addAlert("info", "Submitting your form...", 2000);
+
+      await axios.post("/api/contact-us", cleanedData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      addAlert(
+        "success",
+        "Form submitted successfully! We'll get back to you soon.",
+      );
+
+      setFormData({
+        name: "",
+        contactNo: "",
+        email: "",
+        designation: "",
+        companyName: "",
+        companySize: "",
+        interestedIn: "",
+        message: "",
+      });
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      addAlert("error", "Failed to submit form. Please try again later.");
+    } finally {
+      setIsPending(false);
+    }
+  };
 
   return (
     <section className="container mx-auto px-6">
-      {!mounted ? null : <TypewriterEffectSmooth words={words} />}
+      <TypewriterEffectSmooth words={words} />
       <div className="mx-auto my-4 h-[40%] place-content-center gap-4 py-6 sm:grid sm:grid-cols-2">
         <div className="px-4">
           <div className="text-start text-base font-semibold text-gray-700">
@@ -151,19 +220,24 @@ export default function Page() {
               Send Us a Message
             </CardTitle>
           </CardHeader>
-
           <CardContent className="p-3 pt-0">
-            <Form action="" className="space-y-6">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault(); // prevent page reload
+                handleSubmit(); // call your async submit function
+              }}
+              className="space-y-6"
+            >
               <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2">
-                {/* Name */}
                 <div className="flex flex-col gap-2">
                   <Label htmlFor="name" className="font-semibold text-gray-700">
                     Name
                   </Label>
                   <Input
-                    // onInput={(e: any) =>
-                    //   setFormData({ ...formData, name: e.target.value })
-                    // }
+                    value={formData.name}
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
                     name="name"
                     type="text"
                     placeholder="Enter your name"
@@ -174,19 +248,20 @@ export default function Page() {
                 {/* Contact No */}
                 <div className="flex flex-col gap-2">
                   <Label
-                    htmlFor="number"
+                    htmlFor="contactNo"
                     className="font-semibold text-gray-700"
                   >
                     Contact No.
                   </Label>
                   <Input
-                    // onInput={(e: any) =>
-                    //   setFormData({ ...formData, number: e.target.value })
-                    // }
-                    name="number"
+                    name="contactNo"
                     type="tel"
                     placeholder="Contact No."
                     required
+                    value={formData.contactNo || ""}
+                    onChange={(e) =>
+                      setFormData({ ...formData, contactNo: e.target.value })
+                    }
                   />
                 </div>
 
@@ -199,9 +274,10 @@ export default function Page() {
                     Email
                   </Label>
                   <Input
-                    // onInput={(e: any) =>
-                    //   setFormData({ ...formData, email: e.target.value })
-                    // }
+                    value={formData.email}
+                    onChange={(e) =>
+                      setFormData({ ...formData, email: e.target.value })
+                    }
                     name="email"
                     type="email"
                     placeholder="Enter your email"
@@ -218,9 +294,10 @@ export default function Page() {
                     Designation
                   </Label>
                   <Input
-                    // onInput={(e: any) =>
-                    //   setFormData({ ...formData, designation: e.target.value })
-                    // }
+                    value={formData.designation}
+                    onChange={(e) =>
+                      setFormData({ ...formData, designation: e.target.value })
+                    }
                     name="designation"
                     type="text"
                     placeholder="Enter your designation"
@@ -231,16 +308,17 @@ export default function Page() {
                 {/* Company Name */}
                 <div className="flex flex-col gap-2">
                   <Label
-                    htmlFor="company"
+                    htmlFor="companyName"
                     className="font-semibold text-gray-700"
                   >
                     Company Name
                   </Label>
                   <Input
-                    // onInput={(e: any) =>
-                    //   setFormData({ ...formData, company: e.target.value })
-                    // }
-                    name="company"
+                    value={formData.companyName}
+                    onChange={(e) =>
+                      setFormData({ ...formData, companyName: e.target.value })
+                    }
+                    name="companyName"
                     type="text"
                     placeholder="Enter company name"
                     required
@@ -256,10 +334,10 @@ export default function Page() {
                     Company Size
                   </Label>
                   <Select
-                    // defaultValue=""
-                    // onValueChange={(value) =>
-                    //   setFormData({ ...formData, companySize: value })
-                    // }
+                    value={formData.companySize}
+                    onValueChange={(value) =>
+                      setFormData({ ...formData, companySize: value })
+                    }
                     name="companySize"
                   >
                     <SelectTrigger className="w-full" id="companySize">
@@ -287,10 +365,10 @@ export default function Page() {
                     Interested In
                   </Label>
                   <Select
-                    // defaultValue=""
-                    // onValueChange={(value) =>
-                    //   setFormData({ ...formData, interestedIn: value })
-                    // }
+                    value={formData.interestedIn}
+                    onValueChange={(value) =>
+                      setFormData({ ...formData, interestedIn: value })
+                    }
                     name="interestedIn"
                   >
                     <SelectTrigger className="w-full" id="interestedIn">
@@ -318,9 +396,10 @@ export default function Page() {
                     Message
                   </Label>
                   <Textarea
-                    // onInput={(e: any) =>
-                    //   setFormData({ ...formData, message: e.target.value })
-                    // }
+                    value={formData.message}
+                    onChange={(e) =>
+                      setFormData({ ...formData, message: e.target.value })
+                    }
                     name="message"
                     placeholder="Enter your message"
                     required
@@ -328,31 +407,27 @@ export default function Page() {
                   />
                 </div>
               </div>
-            </Form>
+              <Button
+                className="w-full bg-blue-600 text-white transition duration-150 hover:bg-blue-700 focus:ring-2 focus:ring-blue-400"
+                type="submit"
+                disabled={isPending}
+              >
+                {isPending ? "Submitting..." : "Submit"}
+              </Button>
+            </form>
           </CardContent>
-
-          <CardFooter className="flex flex-col gap-2 pt-0">
-            <Button
-              className="w-full bg-blue-600 text-white transition duration-150 hover:bg-blue-700 focus:ring-2 focus:ring-blue-400"
-              type="submit"
-              disabled={isPending}
-            >
-              {isPending ? "Submitting..." : "Submit"}
-            </Button>
-          </CardFooter>
-          {/* {state && (
-            <div
-              className={`mt-4 rounded-lg p-4 text-center ${
-                state.success
-                  ? "bg-green-50 text-green-800"
-                  : "bg-red-50 text-red-800"
-              }`}
-            >
-              {state.message}
-            </div>
-          )} */}
         </Card>
       </div>
+      {/* Render alerts */}
+      {alerts.map((alert) => (
+        <Alert
+          key={alert.id}
+          type={alert.type}
+          message={alert.message}
+          duration={alert.duration}
+          onClose={() => removeAlert(alert.id)}
+        />
+      ))}
     </section>
   );
 }

@@ -1,86 +1,67 @@
-import { connectDB } from "@/src/dbConfig/dbConfig";
-import ContactUs from "@/src/models/contactUsModel";
 import { NextRequest, NextResponse } from "next/server";
-import { sendEmail } from "@/src/helper/mailer";
 import { StatusCodes } from "http-status-codes";
-connectDB();
+import axios from "axios";
 
 export async function POST(request: NextRequest) {
   try {
-    interface ContactUsRequest {
-      name: string;
-      email: string;
-      contactNo?: string;
-      message: string;
-      designation?: string;
-      companyName?: string;
-      companySize?: string;
-      intrestedIn?: string;
-    }
+    const data = await request.json();
+    console.log("Received data:", data);
+    console.log(process.env.GOOGLE_APPS_SCRIPT_URL);
 
-    const reqBody: ContactUsRequest = await request.json();
-
-    const {
-      name,
-      email,
-      contactNo,
-      message,
-      designation,
-      companyName,
-      companySize,
-      intrestedIn,
-    } = reqBody;
-
-    if (!name || !email || !message) {
+    if (!process.env.GOOGLE_APPS_SCRIPT_URL) {
+      console.error("GOOGLE_APPS_SCRIPT_URL is not defined");
       return NextResponse.json(
-        { error: "Name, email, and message are required." },
-        { status: 400 },
-      );
-    }
-
-    const contactUs = new ContactUs({
-      name,
-      email,
-      contactNo,
-      message,
-      designation,
-      companyName,
-      companySize,
-      intrestedIn,
-    });
-
-    const savedContactUs = await contactUs.save();
-    console.log(savedContactUs);
-
-    try {
-      await sendEmail({ email, emailType: "CONTACT" });
-    } catch (emailError) {
-      console.error("Email send failed:", emailError);
-    }
-
-    return NextResponse.json(
-      {
-        message: "Contact us saved successfully",
-        success: true,
-        savedContactUs,
-      },
-      { status: StatusCodes.OK },
-    );
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      console.log(error.message);
-      return NextResponse.json({ error: error.message }, { status: 500 });
-    } else {
-      console.log("Unknown error", error);
-      return NextResponse.json(
-        { error: "An unexpected error occurred" },
+        { error: "Google Apps Script URL not configured" },
         { status: 500 },
       );
     }
+
+    const response = await axios.post(
+      process.env.GOOGLE_APPS_SCRIPT_URL,
+      data,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
+
+    return NextResponse.json(
+      { success: true, result: response.data },
+      { status: 200 },
+    );
+  } catch (error) {
+    console.error("Proxy error:", error?.response?.data || error.message);
+    return NextResponse.json(
+      {
+        success: false,
+        error:
+          error?.response?.data?.message ||
+          "Failed to submit form. Please try again.",
+      },
+      { status: error?.response?.status || 500 },
+    );
   }
 }
 
 export async function GET() {
-  const option = { status: 200, headers: { "Content-Type": "text/plain" } };
-  return new Response("Hello, Next.js! API", option);
+  try {
+    return NextResponse.json(
+      {
+        message: "Contact API is working",
+        status: "healthy",
+        timestamp: new Date().toISOString(),
+      },
+      { status: StatusCodes.OK },
+    );
+  } catch (error) {
+    return NextResponse.json(
+      {
+        message: "Contact API health check failed",
+        status: "unhealthy",
+        error: error instanceof Error ? error.message : "Unknown error",
+      },
+      { status: StatusCodes.INTERNAL_SERVER_ERROR },
+    );
+  }
 }
