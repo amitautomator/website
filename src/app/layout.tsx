@@ -20,7 +20,7 @@ export default function RootLayout({
     <html lang="en" className="light">
       <body
         className={`${roboto.className} h-screen w-full bg-[--color-background] font-[--font-primary] text-[--color-foreground] antialiased dark:bg-[--color-background-dark]`}
-        data-new-gr-c-s-check-loaded="14.1253"
+        data-new-gr-c-s-check-loaded="14.1254"
       >
         <NavBar />
         {children}
