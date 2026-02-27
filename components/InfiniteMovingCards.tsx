@@ -4,6 +4,153 @@ import { cn } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
+const cardStyles = `
+  @keyframes scroll-cards {
+    to { transform: translateX(-50%); }
+  }
+
+  .imc-container {
+    position: relative;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent, #fff 12%, #fff 88%, transparent);
+    mask-image: linear-gradient(to right, transparent, #fff 12%, #fff 88%, transparent);
+  }
+
+  .imc-track {
+    display: flex;
+    width: max-content;
+    min-width: 100%;
+    flex-wrap: nowrap;
+    gap: 1.25rem;
+    padding: 1rem 0 1.5rem;
+    animation: scroll-cards var(--imc-duration, 80s) linear infinite;
+    animation-direction: var(--imc-direction, forwards);
+  }
+  .imc-track.paused:hover { animation-play-state: paused; }
+
+  /* ── Card ── */
+  .imc-card {
+    position: relative;
+    flex-shrink: 0;
+    width: 380px;
+    max-width: 90vw;
+    background: var(--white, #fff);
+    border: 1px solid var(--border, #e8e6e0);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 1px 4px rgba(17,17,16,0.06);
+    transition: transform 0.25s cubic-bezier(0.22,1,0.36,1),
+                box-shadow 0.25s cubic-bezier(0.22,1,0.36,1),
+                border-color 0.25s;
+    overflow: hidden;
+  }
+  .imc-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 48px rgba(17,17,16,0.1), 0 4px 16px rgba(17,17,16,0.06);
+    border-color: var(--border2, #d4d0c8);
+  }
+
+  /* decorative quote mark */
+  .imc-quote-mark {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.75rem;
+    font-family: 'Syne', Georgia, serif;
+    font-size: 5rem;
+    line-height: 1;
+    font-weight: 800;
+    color: rgba(232,57,14,0.07);
+    pointer-events: none;
+    user-select: none;
+    letter-spacing: -0.05em;
+  }
+
+  /* quote text */
+  .imc-quote {
+    font-size: 0.9rem;
+    line-height: 1.75;
+    color: var(--ink2, #3a3935);
+    font-weight: 400;
+    font-style: italic;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* divider */
+  .imc-divider {
+    width: 100%;
+    height: 1px;
+    background: var(--border, #e8e6e0);
+    margin-bottom: 1.25rem;
+  }
+
+  /* author row */
+  .imc-author {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* avatar */
+  .imc-avatar-wrap {
+    position: relative;
+    flex-shrink: 0;
+  }
+  .imc-avatar {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--white, #fff);
+    box-shadow: 0 2px 8px rgba(17,17,16,0.12);
+    display: block;
+  }
+  .imc-avatar-ring {
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(232,57,14,0.2);
+    transition: border-color 0.25s, transform 0.25s;
+  }
+  .imc-card:hover .imc-avatar-ring {
+    border-color: rgba(232,57,14,0.5);
+    transform: scale(1.08);
+  }
+
+  /* name & title */
+  .imc-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--ink, #111110);
+    line-height: 1.2;
+    transition: color 0.2s;
+  }
+  .imc-card:hover .imc-name { color: var(--accent, #e8390e); }
+
+  .imc-company {
+    font-size: 0.76rem;
+    color: var(--muted, #7a7870);
+    font-weight: 400;
+    margin-top: 0.15rem;
+    letter-spacing: 0.01em;
+  }
+
+  /* star row */
+  .imc-stars {
+    display: flex;
+    gap: 0.2rem;
+    margin-bottom: 0.75rem;
+  }
+  .imc-star {
+    color: var(--gold, #d4960a);
+    font-size: 0.75rem;
+  }
+`;
+
 const InfiniteMovingCards = ({
   items,
   direction = "left",
@@ -24,133 +171,99 @@ const InfiniteMovingCards = ({
 }) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const scrollerRef = React.useRef<HTMLUListElement>(null);
-
-  useEffect(() => {
-    addAnimation();
-  });
-
   const [start, setStart] = useState(false);
 
-  function addAnimation() {
-    if (containerRef.current && scrollerRef.current) {
-      const scrollerContent = Array.from(scrollerRef.current.children);
-
-      scrollerContent.forEach((item) => {
-        const duplicatedItem = item.cloneNode(true);
-        if (scrollerRef.current) {
-          scrollerRef.current.appendChild(duplicatedItem);
-        }
+  useEffect(() => {
+    if (containerRef.current && scrollerRef.current && !start) {
+      // clone items for seamless loop
+      Array.from(scrollerRef.current.children).forEach((item) => {
+        scrollerRef.current!.appendChild(item.cloneNode(true));
       });
 
-      getDirection();
-      getSpeed();
+      // direction
+      containerRef.current.style.setProperty(
+        "--imc-direction",
+        direction === "left" ? "forwards" : "reverse",
+      );
+
+      // speed
+      const durations = { fast: "20s", normal: "40s", slow: "80s" };
+      containerRef.current.style.setProperty(
+        "--imc-duration",
+        durations[speed],
+      );
+
       setStart(true);
     }
-  }
-
-  const getDirection = () => {
-    if (containerRef.current) {
-      if (direction === "left") {
-        containerRef.current.style.setProperty(
-          "--animation-direction",
-          "forwards",
-        );
-      } else {
-        containerRef.current.style.setProperty(
-          "--animation-direction",
-          "reverse",
-        );
-      }
-    }
-  };
-
-  const getSpeed = () => {
-    if (containerRef.current) {
-      if (speed === "fast") {
-        containerRef.current.style.setProperty("--animation-duration", "20s");
-      } else if (speed === "normal") {
-        containerRef.current.style.setProperty("--animation-duration", "40s");
-      } else {
-        containerRef.current.style.setProperty("--animation-duration", "80s");
-      }
-    }
-  };
+  }, [direction, speed, start]);
 
   return (
-    <div
-      ref={containerRef}
-      className={cn(
-        "scroller relative z-20 max-w-7xl overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_20%,white_80%,transparent)]",
-        className,
-      )}
-    >
-      <ul
-        ref={scrollerRef}
-        className={cn(
-          "flex w-max min-w-full shrink-0 flex-nowrap gap-6 py-4",
-          start && "animate-scroll",
-          pauseOnHover && "hover:[animation-play-state:paused]",
-        )}
-      >
-        {items.map((item) => (
-          <li
-            className="group relative w-[380px] max-w-full shrink-0 rounded-3xl border border-gray-200/50 bg-white/80 px-8 py-8 shadow-lg backdrop-blur-sm transition-all duration-300 before:absolute before:inset-0 before:rounded-3xl before:bg-gradient-to-br before:from-blue-50/50 before:via-transparent before:to-purple-50/30 before:opacity-0 before:transition-opacity before:duration-300 hover:-translate-y-1 hover:shadow-2xl hover:before:opacity-100 md:w-[420px]"
-            key={item.name}
-          >
-            {/* Subtle glow effect */}
-            <div className="absolute inset-0 -z-10 rounded-3xl bg-gradient-to-br from-blue-100/20 via-transparent to-purple-100/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+    <>
+      <style>{cardStyles}</style>
+      <div ref={containerRef} className={cn("imc-container", className)}>
+        <ul
+          ref={scrollerRef}
+          className={cn(
+            "imc-track",
+            start &&
+              "animate-[scroll-cards_var(--imc-duration,80s)_linear_infinite]",
+            pauseOnHover && "paused",
+          )}
+          style={
+            start
+              ? {
+                  animation: `scroll-cards var(--imc-duration, 80s) linear infinite`,
+                  animationDirection:
+                    direction === "left" ? "normal" : "reverse",
+                }
+              : {}
+          }
+        >
+          {items.map((item) => (
+            <li className="imc-card" key={item.name}>
+              {/* decorative big quote mark */}
+              <span className="imc-quote-mark" aria-hidden="true">
+                "
+              </span>
 
-            {/* Quote icon */}
-            <div className="absolute top-6 right-6 text-blue-200 transition-colors duration-300 group-hover:text-blue-300">
-              <svg
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="opacity-50"
-              >
-                <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z" />
-              </svg>
-            </div>
-
-            <blockquote className="relative z-10">
-              <div className="mb-6">
-                <span className="relative z-20 text-base leading-relaxed font-medium text-gray-800 italic">
-                  {`"${item.quote}"`}
-                </span>
+              {/* stars */}
+              <div className="imc-stars" aria-label="5 stars">
+                {[...Array(5)].map((_, i) => (
+                  <span key={i} className="imc-star">
+                    ★
+                  </span>
+                ))}
               </div>
 
-              <div className="relative z-20 flex flex-row items-center gap-4 border-t border-gray-100 pt-4">
-                <div className="relative">
+              {/* quote */}
+              <p className="imc-quote">"{item.quote}"</p>
+
+              {/* divider */}
+              <div className="imc-divider" />
+
+              {/* author */}
+              <div className="imc-author">
+                <div className="imc-avatar-wrap">
                   <Image
                     src={item.image}
                     alt={`${item.name} profile`}
-                    width={56}
-                    height={56}
-                    priority={true}
-                    className="h-14 w-14 rounded-full border-2 border-white object-cover shadow-md transition-transform duration-300 group-hover:scale-105"
+                    width={44}
+                    height={44}
+                    className="imc-avatar"
+                    priority
                   />
-                  {/* Ring animation */}
-                  <div className="absolute inset-0 rounded-full border-2 border-blue-400/30 transition-all duration-300 group-hover:scale-110 group-hover:border-blue-500/50"></div>
+                  <div className="imc-avatar-ring" aria-hidden="true" />
                 </div>
-
-                <div className="flex flex-col">
-                  <span className="text-lg font-bold text-gray-900 transition-colors duration-300 group-hover:text-blue-600">
-                    {item.name}
-                  </span>
-                  <span className="text-sm font-medium text-gray-600 transition-colors duration-300 group-hover:text-gray-700">
-                    {item.title}
-                  </span>
+                <div>
+                  <div className="imc-name">{item.name}</div>
+                  <div className="imc-company">{item.title}</div>
                 </div>
               </div>
-            </blockquote>
-
-            {/* Animated border */}
-            <div className="absolute inset-0 -z-20 rounded-3xl bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
-          </li>
-        ))}
-      </ul>
-    </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </>
   );
 };
 

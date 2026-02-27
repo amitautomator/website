@@ -1,44 +1,154 @@
-import { Phone, PhoneCall } from "lucide-react";
+import { PhoneCall } from "lucide-react";
 
-// Main enhanced call button with multiple features
+const styles = `
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&display=swap');
+
+  :root {
+    --accent: #e8390e;
+    --ink:    #111110;
+  }
+
+  /* ── Floating button ── */
+  .fcb-wrap {
+    position: fixed;
+    right: 1.5rem;
+    bottom: 1.5rem;
+    z-index: 50;
+  }
+  @media (min-width: 640px) { .fcb-wrap { right: 2rem; bottom: 2rem; } }
+
+  .fcb-group { position: relative; display: inline-flex; }
+
+  /* pulse rings */
+  .fcb-ring {
+    position: absolute; inset: 0;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0;
+    animation: fcb-pulse 2.4s cubic-bezier(0.4,0,0.6,1) infinite;
+  }
+  .fcb-ring:nth-child(2) { animation-delay: 0.8s; }
+  @keyframes fcb-pulse {
+    0%   { transform: scale(1);   opacity: 0.35; }
+    70%  { transform: scale(1.75); opacity: 0; }
+    100% { transform: scale(1.75); opacity: 0; }
+  }
+
+  /* main button */
+  .fcb-btn {
+    position: relative; z-index: 1;
+    width: 54px; height: 54px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none;
+    box-shadow: 0 4px 20px rgba(232,57,14,0.38), 0 1px 4px rgba(232,57,14,0.2);
+    transition: transform 0.22s cubic-bezier(0.22,1,0.36,1),
+                box-shadow 0.22s;
+    border: 2.5px solid rgba(255,255,255,0.25);
+  }
+  @media (min-width: 640px) { .fcb-btn { width: 60px; height: 60px; } }
+
+  .fcb-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 32px rgba(232,57,14,0.45), 0 2px 8px rgba(232,57,14,0.25);
+  }
+  .fcb-btn:active { transform: scale(0.95); }
+
+  .fcb-btn svg {
+    width: 22px; height: 22px;
+    transition: transform 0.22s cubic-bezier(0.22,1,0.36,1);
+  }
+  @media (min-width: 640px) { .fcb-btn svg { width: 24px; height: 24px; } }
+  .fcb-group:hover .fcb-btn svg { transform: rotate(12deg); }
+
+  /* tooltip */
+  .fcb-tooltip {
+    position: absolute;
+    right: calc(100% + 0.75rem);
+    top: 50%;
+    transform: translateY(-50%) translateX(6px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s, transform 0.2s cubic-bezier(0.22,1,0.36,1);
+    white-space: nowrap;
+  }
+  .fcb-group:hover .fcb-tooltip {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+
+  .fcb-tooltip-inner {
+    background: var(--ink);
+    border-radius: 9px;
+    padding: 0.55rem 0.9rem;
+    box-shadow: 0 8px 24px rgba(17,17,16,0.18);
+    position: relative;
+  }
+  .fcb-tooltip-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.82rem; font-weight: 700;
+    color: #fff; letter-spacing: 0.02em;
+    display: flex; align-items: center; gap: 0.4rem;
+  }
+  .fcb-tooltip-num::before {
+    content: '';
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #4ade80;
+    flex-shrink: 0;
+    box-shadow: 0 0 6px rgba(74,222,128,0.6);
+    animation: fcb-blink 1.5s ease-in-out infinite;
+  }
+  @keyframes fcb-blink { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  .fcb-tooltip-sub {
+    font-size: 0.68rem; color: rgba(255,255,255,0.4);
+    margin-top: 0.1rem; letter-spacing: 0.04em;
+  }
+
+  /* arrow pointing right */
+  .fcb-arrow {
+    position: absolute;
+    right: -5px; top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+    width: 10px; height: 10px;
+    background: var(--ink);
+    border-radius: 1px;
+  }
+`;
+
 export function EnhancedCallButton() {
   return (
-    <div className="fixed right-4 bottom-4 z-50 sm:right-6 sm:bottom-6">
-      <div className="group relative">
-        <a
-          href="tel:+917210756879"
-          className="relative flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-green-500 via-green-600 to-emerald-600 text-white shadow-xl transition-all duration-300 ease-out hover:scale-110 hover:shadow-2xl focus:ring-4 focus:ring-green-300 focus:outline-none active:scale-95 sm:h-16 sm:w-16"
-          aria-label="+91 721-075-6879"
-          title="Click to call"
-        >
-          {/* Phone icon with animation */}
-          <PhoneCall className="h-6 w-6 transition-transform duration-300 group-hover:rotate-12 sm:h-7 sm:w-7" />
+    <>
+      <style>{styles}</style>
 
-          {/* Pulsing ring animation */}
-          <div className="absolute inset-0 animate-ping rounded-full bg-green-400 opacity-0 group-hover:opacity-30"></div>
+      <div className="fcb-wrap">
+        <div className="fcb-group">
+          {/* Pulse rings */}
+          <div className="fcb-ring" aria-hidden="true" />
+          <div className="fcb-ring" aria-hidden="true" />
 
-          {/* Subtle inner glow */}
-          <div className="absolute inset-1 rounded-full bg-white opacity-0 transition-opacity duration-300 group-hover:opacity-10"></div>
-        </a>
+          {/* Button */}
+          <a
+            href="tel:+917210756879"
+            className="fcb-btn"
+            aria-label="Call +91 7210756879"
+            title="Call us"
+          >
+            <PhoneCall />
+          </a>
 
-        {/* Tooltip with phone number */}
-        <div className="pointer-events-none absolute right-0 bottom-full mb-3 translate-x-2 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100">
-          <div className="relative">
-            <div className="rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium whitespace-nowrap text-white shadow-lg backdrop-blur-sm">
-              <div className="flex items-center gap-2">
-                <Phone className="h-4 w-4" />
-                <span>+91 721-075-6879</span>
-              </div>
-              <div className="mt-1 text-xs opacity-75">Tap to call</div>
+          {/* Tooltip */}
+          <div className="fcb-tooltip" role="tooltip">
+            <div className="fcb-tooltip-inner">
+              <div className="fcb-tooltip-num">+91 7210-756-879</div>
+              <div className="fcb-tooltip-sub">Available now · Tap to call</div>
+              <div className="fcb-arrow" aria-hidden="true" />
             </div>
-            {/* Tooltip arrow */}
-            <div className="absolute top-full right-4 h-2 w-2 rotate-45 transform bg-gray-900"></div>
           </div>
         </div>
-
-        {/* Ripple effect on click */}
-        <div className="absolute inset-0 scale-0 rounded-full bg-green-300 opacity-0 transition-all duration-500 group-active:scale-150 group-active:opacity-20"></div>
       </div>
-    </div>
+    </>
   );
 }
