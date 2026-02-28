@@ -27,7 +27,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "stores/ui.store.js"
+    "stores/ui.store.js",
+    "src/types/**/*.d.ts"
   ],
   "exclude": ["node_modules"]
 }

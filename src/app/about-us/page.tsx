@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import Link from "next/link";
 import {
   UsersRound,
   Star,
@@ -12,31 +13,37 @@ import {
 
 // ─── Global Styles ────────────────────────────────────────────────────────────
 const globalStyles = `
-  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap');
 
   :root {
-    --white:    #ffffff;
-    --off:      #fafaf8;
-    --surface:  #f4f3ef;
-    --border:   #e8e6e0;
-    --border2:  #d4d0c8;
-    --ink:      #111110;
-    --ink2:     #3a3935;
-    --muted:    #7a7870;
-    --accent:   #e8390e;
-    --accent2:  #ff6b3d;
-    --blue:     #1a56db;
-    --gold:     #d4960a;
-    --shadow-sm: 0 1px 4px rgba(17,17,16,0.07), 0 1px 2px rgba(17,17,16,0.04);
-    --shadow-lg: 0 16px 48px rgba(17,17,16,0.11), 0 4px 16px rgba(17,17,16,0.06);
+    --white:   #ffffff;
+    --off:     #fafaf8;
+    --surface: #f5f4f0;
+    --border:  #e9e7e1;
+    --border2: #d6d2c9;
+    --ink:     #0f0f0e;
+    --ink2:    #38372f;
+    --muted:   #7c7a72;
+    --accent:  #e8390e;
+    --accent2: #ff6b3d;
+    --blue:    #1a56db;
+    --gold:    #c98a06;
+    --shadow-sm: 0 1px 3px rgba(15,15,14,0.06), 0 1px 2px rgba(15,15,14,0.04);
+    --shadow-md: 0 4px 16px rgba(15,15,14,0.08), 0 2px 6px rgba(15,15,14,0.05);
+    --shadow-lg: 0 16px 48px rgba(15,15,14,0.11), 0 4px 16px rgba(15,15,14,0.06);
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body:    'DM Sans', system-ui, sans-serif;
   }
 
-  .ab-page *, .ab-page *::before, .ab-page *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  .ab-page *, .ab-page *::before, .ab-page *::after {
+    box-sizing: border-box; margin: 0; padding: 0;
+  }
   .ab-page {
-    font-family: 'Instrument Sans', sans-serif;
+    font-family: var(--font-body);
     background: var(--white);
     color: var(--ink);
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
   }
 
@@ -57,7 +64,7 @@ const globalStyles = `
      HERO
   ════════════════════════════════ */
   .ab-hero {
-    padding: 7rem 7vw 5rem;
+    padding: 7rem 7vw 5.5rem;
     border-bottom: 1px solid var(--border);
     position: relative;
     overflow: hidden;
@@ -80,55 +87,91 @@ const globalStyles = `
     max-width: 680px;
     position: relative; z-index: 1;
   }
+
+  /* ── Shared eyebrow — mirrors homepage .eyebrow ── */
   .ab-eyebrow {
-    display: inline-flex; align-items: center; gap: 0.55rem;
-    font-size: 0.68rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    font-family: var(--font-body);
+    font-size: 0.68rem; font-weight: 600;
+    letter-spacing: 0.13em; text-transform: uppercase;
     color: var(--accent); margin-bottom: 1.25rem;
   }
   .ab-eyebrow-bar { width: 1.8rem; height: 1.5px; background: var(--accent); border-radius: 2px; flex-shrink: 0; }
 
+  /*
+   * Hero heading uses DM Serif Display at normal weight — same as homepage .hero-brand.
+   * Italic accent word mirrors .line-accent technique.
+   */
   .ab-hero-h1 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(2.6rem, 5vw, 4.8rem);
-    font-weight: 800; line-height: 1.0; letter-spacing: -0.035em;
-    color: var(--ink); margin-bottom: 1.25rem;
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 5.2vw, 5rem);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin-bottom: 1.4rem;
   }
-  .ab-hero-h1 em { font-style: normal; color: var(--accent); }
+  .ab-hero-h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
 
   .ab-hero-sub {
-    font-size: clamp(0.95rem, 1.2vw, 1.1rem);
-    color: var(--muted); line-height: 1.75; font-weight: 400; max-width: 540px;
+    font-family: var(--font-body);
+    font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+    color: var(--muted);
+    line-height: 1.8;
+    font-weight: 400;
+    max-width: 540px;
+    letter-spacing: 0.005em;
   }
 
   /* ════════════════════════════════
-     STORY + VALUES GRID
+     BODY: STORY + VALUES
   ════════════════════════════════ */
   .ab-body {
-    padding: 5rem 7vw 6rem;
+    padding: 5.5rem 7vw 6rem;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 5rem;
+    gap: 5.5rem;
     align-items: start;
   }
-  @media (max-width: 900px) { .ab-body { grid-template-columns: 1fr; gap: 3.5rem; padding: 4rem 1.5rem 5rem; } }
+  @media (max-width: 900px) {
+    .ab-body { grid-template-columns: 1fr; gap: 3.5rem; padding: 4rem 1.5rem 5rem; }
+  }
+
+  /* ── Section eyebrows — color variants matching homepage .eyebrow ── */
+  .ab-section-eyebrow {
+    display: flex; align-items: center; gap: 0.6rem;
+    font-family: var(--font-body);
+    font-size: 0.68rem; font-weight: 600;
+    letter-spacing: 0.13em; text-transform: uppercase;
+    margin-bottom: 0.2rem;
+  }
+  .ab-section-eyebrow-bar { width: 1.8rem; height: 1.5px; border-radius: 2px; flex-shrink: 0; }
+  .ab-ey-blue { color: var(--blue); }
+  .ab-ey-blue .ab-section-eyebrow-bar { background: var(--blue); }
+  .ab-ey-red  { color: var(--accent); }
+  .ab-ey-red  .ab-section-eyebrow-bar { background: var(--accent); }
+  .ab-ey-gold { color: var(--gold); }
+  .ab-ey-gold .ab-section-eyebrow-bar { background: var(--gold); }
 
   /* ── Left: Story ── */
   .ab-story { display: flex; flex-direction: column; gap: 2rem; }
 
-  .ab-section-eyebrow {
-    display: flex; align-items: center; gap: 0.55rem;
-    font-size: 0.68rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--blue); margin-bottom: 0.2rem;
-  }
-  .ab-section-eyebrow-bar { width: 1.8rem; height: 1.5px; background: var(--blue); border-radius: 2px; flex-shrink: 0; }
+  .ab-story-block { display: flex; flex-direction: column; gap: 0.9rem; }
 
-  .ab-story-block { display: flex; flex-direction: column; gap: 0.85rem; }
-
+  /* Body copy — matches homepage .section-body */
   .ab-story p {
-    font-size: 1rem; color: var(--ink2); line-height: 1.85; font-weight: 400;
+    font-family: var(--font-body);
+    font-size: 0.97rem;
+    color: var(--muted);
+    line-height: 1.85;
+    font-weight: 400;
+    letter-spacing: 0.005em;
   }
 
-  /* mission box */
+  /* Mission box */
   .ab-mission {
     background: var(--off);
     border: 1px solid var(--border);
@@ -137,96 +180,112 @@ const globalStyles = `
     padding: 1.5rem 1.75rem;
   }
   .ab-mission-label {
-    font-family: 'Syne', sans-serif;
-    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    font-family: var(--font-body);
+    font-size: 0.68rem; font-weight: 600;
+    letter-spacing: 0.13em; text-transform: uppercase;
     color: var(--accent); margin-bottom: 0.6rem;
     display: flex; align-items: center; gap: 0.4rem;
   }
-  .ab-mission-label::before { content: ''; width: 1rem; height: 1.5px; background: var(--accent); border-radius: 2px; }
+  .ab-mission-label::before {
+    content: ''; width: 1rem; height: 1.5px;
+    background: var(--accent); border-radius: 2px;
+  }
   .ab-mission p {
-    font-size: 0.97rem; color: var(--ink2); line-height: 1.8; font-style: italic;
+    font-family: var(--font-body);
+    font-size: 0.97rem; color: var(--ink2);
+    line-height: 1.8; font-style: italic;
+    font-weight: 400; letter-spacing: 0.005em;
   }
 
-  /* stats row under story */
+  /* Stats row — mirrors homepage .hero-stats */
   .ab-stats {
     display: flex; gap: 0; flex-wrap: wrap;
     border: 1px solid var(--border);
     border-radius: 12px; overflow: hidden;
   }
   .ab-stat {
-    flex: 1; min-width: 100px;
-    padding: 1.25rem 1.5rem;
+    flex: 1; min-width: 90px;
+    padding: 1.25rem 1.4rem;
     border-right: 1px solid var(--border);
     background: var(--white);
     transition: background 0.2s;
   }
   .ab-stat:last-child { border-right: none; }
   .ab-stat:hover { background: var(--off); }
+  /*
+   * Stat numbers use DM Serif Display — matches .hero-stat-num on homepage.
+   */
   .ab-stat-num {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.7rem; font-weight: 800; letter-spacing: -0.03em;
-    color: var(--ink); line-height: 1;
+    font-family: var(--font-display);
+    font-size: 1.9rem; font-weight: 400;
+    letter-spacing: -0.02em; color: var(--ink); line-height: 1.1;
   }
-  .ab-stat-label { font-size: 0.75rem; color: var(--muted); margin-top: 0.2rem; }
+  .ab-stat-label {
+    font-family: var(--font-body);
+    font-size: 0.75rem; color: var(--muted);
+    margin-top: 0.2rem; font-weight: 400;
+    letter-spacing: 0.01em;
+  }
 
   /* ── Right: Core Values ── */
   .ab-values { display: flex; flex-direction: column; gap: 1.5rem; }
 
+  /* Values heading — mirrors homepage .section-h2 */
   .ab-values-heading {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em;
-    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+    font-weight: 400; letter-spacing: -0.01em;
+    color: var(--ink); line-height: 1.2;
+    margin-top: 0.5rem;
   }
 
-  /* value card */
+  /* Value card — mirrors homepage .step-card */
   .ab-value-card {
     background: var(--white);
     border: 1px solid var(--border);
     border-radius: 14px;
-    padding: 1.75rem 1.75rem;
-    display: flex;
-    align-items: flex-start;
-    gap: 1.25rem;
-    transition: transform 0.25s cubic-bezier(0.22,1,0.36,1),
-                box-shadow 0.25s, border-color 0.25s;
+    padding: 1.75rem;
+    display: flex; align-items: flex-start; gap: 1.25rem;
+    transition: transform 0.28s cubic-bezier(0.22,1,0.36,1),
+                box-shadow 0.28s, border-color 0.28s;
     box-shadow: var(--shadow-sm);
-    position: relative;
-    overflow: hidden;
   }
   .ab-value-card:hover {
     transform: translateY(-4px);
     box-shadow: var(--shadow-lg);
-    border-color: var(--border2);
+    border-color: var(--accent);
   }
-  .ab-value-card:hover .ab-value-icon { background: var(--accent); }
-  .ab-value-card:hover .ab-value-icon svg { color: #fff; }
+  .ab-value-card:hover .ab-value-icon { background: var(--accent) !important; }
+  .ab-value-card:hover .ab-value-icon svg { color: #fff !important; }
 
-  /* icon */
   .ab-value-icon {
-    width: 3rem; height: 3rem; min-width: 3rem;
-    border-radius: 10px;
+    width: 2.8rem; height: 2.8rem; min-width: 2.8rem;
+    border-radius: 9px;
     display: flex; align-items: center; justify-content: center;
     transition: background 0.2s;
   }
-  .ab-value-icon svg { width: 20px; height: 20px; transition: color 0.2s; }
-  .ab-vi-green  { background: rgba(22,163,74,0.09); }
-  .ab-vi-green svg  { color: #16a34a; }
-  .ab-vi-red    { background: rgba(232,57,14,0.08); }
-  .ab-vi-red svg    { color: var(--accent); }
-  .ab-vi-gold   { background: rgba(212,150,10,0.1); }
-  .ab-vi-gold svg   { color: var(--gold); }
+  .ab-value-icon svg { width: 18px; height: 18px; transition: color 0.2s; }
+  .ab-vi-green { background: rgba(22,163,74,0.08); }
+  .ab-vi-green svg { color: #16a34a; }
+  .ab-vi-red   { background: rgba(232,57,14,0.07); }
+  .ab-vi-red svg   { color: var(--accent); }
+  .ab-vi-gold  { background: rgba(201,138,6,0.09); }
+  .ab-vi-gold svg  { color: var(--gold); }
 
+  /* Value text — mirrors homepage .step-title / .step-body */
   .ab-value-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 1rem; font-weight: 700;
-    color: var(--ink); margin-bottom: 0.35rem;
+    font-family: var(--font-display);
+    font-size: 1.05rem; font-weight: 400;
+    color: var(--ink); margin-bottom: 0.35rem; line-height: 1.35;
   }
   .ab-value-desc {
-    font-size: 0.88rem; color: var(--muted); line-height: 1.7; font-weight: 400;
+    font-family: var(--font-body);
+    font-size: 0.875rem; color: var(--muted);
+    line-height: 1.8; font-weight: 400; letter-spacing: 0.005em;
   }
 
   /* ════════════════════════════════
-     TECH STACK STRIP
+     TECH STACK STRIP — mirrors homepage .steps-section bg
   ════════════════════════════════ */
   .ab-tech {
     padding: 3.5rem 7vw;
@@ -235,21 +294,26 @@ const globalStyles = `
     border-bottom: 1px solid var(--border);
   }
   .ab-tech-eyebrow {
-    display: flex; align-items: center; gap: 0.55rem;
-    font-size: 0.68rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+    display: flex; align-items: center; gap: 0.6rem;
+    font-family: var(--font-body);
+    font-size: 0.68rem; font-weight: 600;
+    letter-spacing: 0.13em; text-transform: uppercase;
     color: var(--gold); margin-bottom: 2rem;
   }
   .ab-tech-eyebrow-bar { width: 1.8rem; height: 1.5px; background: var(--gold); border-radius: 2px; }
-  .ab-tech-grid {
-    display: flex; flex-wrap: wrap; gap: 0.75rem;
-  }
+
+  .ab-tech-grid { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+  /* Tech chip — mirrors homepage hero-badge style */
   .ab-tech-chip {
     display: inline-flex; align-items: center; gap: 0.5rem;
     background: var(--white);
     border: 1px solid var(--border);
     border-radius: 100px;
     padding: 0.45rem 1.1rem;
-    font-size: 0.82rem; font-weight: 500; color: var(--ink2);
+    font-family: var(--font-body);
+    font-size: 0.8rem; font-weight: 400; color: var(--ink2);
+    letter-spacing: 0.005em;
     transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
     cursor: default;
   }
@@ -264,10 +328,9 @@ const globalStyles = `
      TEAM SECTION
   ════════════════════════════════ */
   .ab-team {
-    padding: 5rem 7vw 6rem;
+    padding: 5.5rem 7vw 6rem;
     border-bottom: 1px solid var(--border);
-    position: relative;
-    overflow: hidden;
+    position: relative; overflow: hidden;
   }
   .ab-team::before {
     content: '';
@@ -278,33 +341,32 @@ const globalStyles = `
   }
 
   .ab-team-header {
-    display: flex;
-    align-items: flex-end;
+    display: flex; align-items: flex-end;
     justify-content: space-between;
-    gap: 2rem;
-    margin-bottom: 3.5rem;
-    flex-wrap: wrap;
+    gap: 2rem; margin-bottom: 3.5rem; flex-wrap: wrap;
   }
   .ab-team-header-left { max-width: 520px; }
 
+  /* Team h2 — matches homepage .section-h2 */
   .ab-team-h2 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(1.6rem, 2.5vw, 2.4rem);
-    font-weight: 800; letter-spacing: -0.025em;
+    font-family: var(--font-display);
+    font-size: clamp(1.7rem, 2.6vw, 2.5rem);
+    font-weight: 400; letter-spacing: -0.01em;
     color: var(--ink); margin-top: 0.5rem; line-height: 1.15;
   }
   .ab-team-sub {
-    font-size: 0.92rem; color: var(--muted); line-height: 1.75; margin-top: 0.65rem;
+    font-family: var(--font-body);
+    font-size: 0.95rem; color: var(--muted);
+    line-height: 1.8; margin-top: 0.65rem;
+    font-weight: 400; letter-spacing: 0.005em;
   }
   .ab-team-count {
-    font-family: 'Syne', sans-serif;
-    font-size: 3.5rem; font-weight: 800; letter-spacing: -0.05em;
-    color: var(--border2);
-    line-height: 1; align-self: flex-start;
-    user-select: none;
+    font-family: var(--font-display);
+    font-size: 4rem; font-weight: 400;
+    letter-spacing: -0.04em; color: var(--border2);
+    line-height: 1; align-self: flex-start; user-select: none;
   }
 
-  /* Grid */
   .ab-team-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -322,7 +384,6 @@ const globalStyles = `
     transition: transform 0.3s cubic-bezier(0.22,1,0.36,1),
                 box-shadow 0.3s, border-color 0.3s;
     box-shadow: var(--shadow-sm);
-    position: relative;
   }
   .ab-member-card:hover {
     transform: translateY(-6px);
@@ -330,49 +391,36 @@ const globalStyles = `
     border-color: var(--border2);
   }
   .ab-member-card:hover .ab-member-overlay { opacity: 1; }
-  .ab-member-card:hover .ab-member-photo { transform: scale(1.04); }
+  .ab-member-card:hover .ab-member-photo,
+  .ab-member-card:hover .ab-member-avatar-placeholder { transform: scale(1.04); }
 
-  /* Photo area */
   .ab-member-photo-wrap {
-    position: relative;
-    width: 100%; aspect-ratio: 4/4.5;
-    overflow: hidden;
-    background: var(--surface);
+    position: relative; width: 100%; aspect-ratio: 4/4.5;
+    overflow: hidden; background: var(--surface);
   }
   .ab-member-photo {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    display: block;
+    width: 100%; height: 100%; object-fit: cover; display: block;
     transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
   }
-  /* Placeholder avatar when no photo */
   .ab-member-avatar-placeholder {
     width: 100%; height: 100%;
     display: flex; align-items: center; justify-content: center;
     background: linear-gradient(135deg, var(--surface) 0%, var(--border) 100%);
-    font-family: 'Syne', sans-serif;
-    font-size: 3rem; font-weight: 800;
-    color: var(--border2);
-    letter-spacing: -0.03em;
+    font-family: var(--font-display);
+    font-size: 3rem; font-weight: 400; color: var(--border2);
+    letter-spacing: -0.01em;
     transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
   }
-  .ab-member-card:hover .ab-member-avatar-placeholder { transform: scale(1.04); }
-
-  /* Overlay with socials */
   .ab-member-overlay {
     position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(17,17,16,0.65) 0%, transparent 55%);
-    opacity: 0;
-    transition: opacity 0.3s;
+    background: linear-gradient(to top, rgba(15,15,14,0.65) 0%, transparent 55%);
+    opacity: 0; transition: opacity 0.3s;
     display: flex; align-items: flex-end; justify-content: flex-end;
     padding: 1rem;
   }
-  .ab-member-socials {
-    display: flex; gap: 0.4rem;
-  }
+  .ab-member-socials { display: flex; gap: 0.4rem; }
   .ab-member-social-btn {
-    width: 2rem; height: 2rem;
-    border-radius: 8px;
+    width: 2rem; height: 2rem; border-radius: 8px;
     background: rgba(255,255,255,0.15);
     backdrop-filter: blur(6px);
     border: 1px solid rgba(255,255,255,0.2);
@@ -383,7 +431,6 @@ const globalStyles = `
   .ab-member-social-btn:hover { background: var(--accent); transform: scale(1.12); }
   .ab-member-social-btn svg { width: 13px; height: 13px; }
 
-  /* Role badge on photo */
   .ab-member-role-badge {
     position: absolute; top: 1rem; left: 1rem;
     background: rgba(255,255,255,0.92);
@@ -391,31 +438,30 @@ const globalStyles = `
     border: 1px solid rgba(255,255,255,0.5);
     border-radius: 100px;
     padding: 0.28rem 0.75rem;
-    font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+    font-family: var(--font-body);
+    font-size: 0.7rem; font-weight: 500;
+    letter-spacing: 0.05em; text-transform: uppercase;
     color: var(--ink2);
   }
 
-  /* Info area */
-  .ab-member-info {
-    padding: 1.25rem 1.4rem 1.4rem;
-  }
+  .ab-member-info { padding: 1.25rem 1.4rem 1.4rem; }
+
+  /* Member name — DM Serif Display at 400 weight, matches card heading style */
   .ab-member-name {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.05rem; font-weight: 800; letter-spacing: -0.02em;
-    color: var(--ink); margin-bottom: 0.15rem;
+    font-family: var(--font-display);
+    font-size: 1.1rem; font-weight: 400;
+    letter-spacing: -0.01em; color: var(--ink); margin-bottom: 0.15rem;
+    line-height: 1.25;
   }
   .ab-member-title {
-    font-size: 0.78rem; color: var(--accent); font-weight: 600;
-    letter-spacing: 0.04em; margin-bottom: 0.85rem;
-    text-transform: uppercase;
+    font-family: var(--font-body);
+    font-size: 0.75rem; color: var(--accent); font-weight: 500;
+    letter-spacing: 0.04em; margin-bottom: 0.85rem; text-transform: uppercase;
   }
-
-  /* Expertise tags */
-  .ab-member-tags {
-    display: flex; flex-wrap: wrap; gap: 0.35rem;
-  }
+  .ab-member-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
   .ab-member-tag {
-    font-size: 0.7rem; font-weight: 500;
+    font-family: var(--font-body);
+    font-size: 0.7rem; font-weight: 400;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 100px;
@@ -429,60 +475,75 @@ const globalStyles = `
   }
 
   /* ════════════════════════════════
-     CTA
+     CTA BAND — mirrors homepage .cta-band exactly
   ════════════════════════════════ */
   .ab-cta {
     margin: 5rem 7vw 6rem;
     background: var(--ink);
-    border-radius: 20px;
-    padding: 4rem 5vw;
+    border-radius: 18px;
+    padding: 5rem 5vw;
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: center;
-    gap: 2.5rem;
+    gap: 3rem;
     position: relative; overflow: hidden;
   }
-  @media (max-width: 700px) { .ab-cta { grid-template-columns: 1fr; margin: 4rem 1.5rem; padding: 3rem 2rem; } }
+  @media (max-width: 700px) {
+    .ab-cta { grid-template-columns: 1fr; margin: 4rem 1.5rem; padding: 3rem 2rem; }
+  }
   .ab-cta::before {
     content: '';
     position: absolute; top: -30%; right: -8%;
-    width: 450px; height: 450px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(232,57,14,0.14) 0%, transparent 60%);
+    width: 500px; height: 500px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,57,14,0.12) 0%, transparent 60%);
     pointer-events: none;
   }
   .ab-cta::after {
     content: '';
-    position: absolute; bottom: -40%; left: 15%;
-    width: 380px; height: 380px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(26,86,219,0.1) 0%, transparent 60%);
+    position: absolute; bottom: -40%; left: 20%;
+    width: 400px; height: 400px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(26,86,219,0.08) 0%, transparent 60%);
     pointer-events: none;
   }
   .ab-cta-eyebrow {
-    font-size: 0.68rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
-    color: rgba(255,255,255,0.35); margin-bottom: 0.85rem;
+    font-family: var(--font-body);
+    font-size: 0.68rem; font-weight: 500;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: rgba(255,255,255,0.3); margin-bottom: 1rem;
     display: flex; align-items: center; gap: 0.5rem;
   }
-  .ab-cta-eyebrow::before { content: ''; width: 1.5rem; height: 1px; background: rgba(255,255,255,0.25); }
+  .ab-cta-eyebrow::before { content: ''; width: 1.5rem; height: 1px; background: rgba(255,255,255,0.2); }
+
+  /* CTA heading — matches homepage .cta-h2 */
   .ab-cta-h2 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(1.6rem, 2.5vw, 2.4rem);
-    font-weight: 800; color: var(--white); line-height: 1.15;
-    letter-spacing: -0.025em; margin-bottom: 0.75rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.9rem, 3vw, 2.9rem);
+    font-weight: 400; color: var(--white);
+    line-height: 1.15; letter-spacing: -0.01em;
+    max-width: 520px; margin-bottom: 1rem;
   }
-  .ab-cta-h2 em { font-style: normal; color: var(--accent2); }
-  .ab-cta-body { font-size: 0.9rem; color: rgba(255,255,255,0.45); line-height: 1.75; max-width: 420px; }
+  .ab-cta-h2 em { font-style: italic; color: var(--accent2); }
+
+  .ab-cta-body {
+    font-family: var(--font-body);
+    font-size: 0.92rem; color: rgba(255,255,255,0.4);
+    line-height: 1.8; max-width: 440px; font-weight: 400;
+  }
+
+  /* Btn white — mirrors homepage .btn-white exactly */
   .ab-btn-white {
-    display: inline-flex; align-items: center; gap: 0.5rem;
+    display: inline-flex; align-items: center; gap: 0.4rem;
     background: var(--white); color: var(--ink); border: none;
-    padding: 1rem 2.2rem; border-radius: 8px;
-    font-family: 'Syne', sans-serif;
-    font-size: 0.88rem; font-weight: 700;
+    padding: 1rem 2.2rem; border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 0.85rem; font-weight: 600;
+    letter-spacing: 0.01em;
     text-decoration: none; cursor: pointer; white-space: nowrap;
     transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.16);
     position: relative; z-index: 1;
   }
-  .ab-btn-white:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(0,0,0,0.22); }
+  .ab-btn-white:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(0,0,0,0.2); }
 `;
 
 // ── Reveal hook ───────────────────────────────────────────────────────────────
@@ -545,19 +606,14 @@ const stats = [
   { num: "5★", label: "Avg. rating" },
 ];
 
-// ── TEAM DATA (replace with real data) ───────────────────────────────────────
 const teamMembers = [
   {
     name: "Alex Johnson",
     role: "Founder & Lead Architect",
-    photo: null, // replace with image URL e.g. "/team/alex.jpg"
+    photo: null,
     initials: "AJ",
     expertise: ["Apps Script", "System Design", "REST APIs"],
-    socials: {
-      linkedin: "#",
-      twitter: "#",
-      website: "#",
-    },
+    socials: { linkedin: "#", twitter: "#", website: "#" },
   },
   {
     name: "Maria Santos",
@@ -565,11 +621,7 @@ const teamMembers = [
     photo: null,
     initials: "MS",
     expertise: ["AppSheet", "Google Sheets", "Data Pipelines"],
-    socials: {
-      linkedin: "#",
-      twitter: null,
-      website: null,
-    },
+    socials: { linkedin: "#", twitter: null, website: null },
   },
   {
     name: "Daniel Osei",
@@ -577,11 +629,7 @@ const teamMembers = [
     photo: null,
     initials: "DO",
     expertise: ["WhatsApp API", "Gmail Automation", "Looker Studio"],
-    socials: {
-      linkedin: "#",
-      twitter: "#",
-      website: null,
-    },
+    socials: { linkedin: "#", twitter: "#", website: null },
   },
   {
     name: "Priya Nair",
@@ -589,11 +637,7 @@ const teamMembers = [
     photo: null,
     initials: "PN",
     expertise: ["Project Management", "Training", "Google Sites"],
-    socials: {
-      linkedin: "#",
-      twitter: null,
-      website: "#",
-    },
+    socials: { linkedin: "#", twitter: null, website: "#" },
   },
 ];
 
@@ -628,7 +672,7 @@ export default function Page() {
         {/* LEFT — Story */}
         <div className="ab-story">
           <div className="ab-reveal">
-            <div className="ab-section-eyebrow">
+            <div className="ab-section-eyebrow ab-ey-blue">
               <span className="ab-section-eyebrow-bar" />
               Our Story
             </div>
@@ -673,19 +717,11 @@ export default function Page() {
         {/* RIGHT — Core Values */}
         <div className="ab-values">
           <div className="ab-reveal">
-            <div
-              className="ab-section-eyebrow"
-              style={{ color: "var(--accent)" }}
-            >
-              <span
-                className="ab-section-eyebrow-bar"
-                style={{ background: "var(--accent)" }}
-              />
+            <div className="ab-section-eyebrow ab-ey-red">
+              <span className="ab-section-eyebrow-bar" />
               What Drives Us
             </div>
-            <h2 className="ab-values-heading" style={{ marginTop: "0.5rem" }}>
-              Our Core Values
-            </h2>
+            <h2 className="ab-values-heading">Our Core Values</h2>
           </div>
 
           {coreValues.map((v, i) => {
@@ -724,14 +760,8 @@ export default function Page() {
       <section className="ab-team">
         <div className="ab-team-header">
           <div className="ab-team-header-left ab-reveal">
-            <div
-              className="ab-section-eyebrow"
-              style={{ color: "var(--blue)" }}
-            >
-              <span
-                className="ab-section-eyebrow-bar"
-                style={{ background: "var(--blue)" }}
-              />
+            <div className="ab-section-eyebrow ab-ey-blue">
+              <span className="ab-section-eyebrow-bar" />
               The People Behind It
             </div>
             <h2 className="ab-team-h2">Meet Our Team</h2>
@@ -751,7 +781,6 @@ export default function Page() {
               key={i}
               className={`ab-member-card ab-reveal ab-rd${Math.min(i + 1, 4)}`}
             >
-              {/* Photo */}
               <div className="ab-member-photo-wrap">
                 {member.photo ? (
                   <img
@@ -764,11 +793,7 @@ export default function Page() {
                     {member.initials}
                   </div>
                 )}
-
-                {/* Role badge */}
                 <div className="ab-member-role-badge">{member.role}</div>
-
-                {/* Hover overlay + socials */}
                 <div className="ab-member-overlay">
                   <div className="ab-member-socials">
                     {member.socials.linkedin && (
@@ -802,7 +827,6 @@ export default function Page() {
                 </div>
               </div>
 
-              {/* Info */}
               <div className="ab-member-info">
                 <div className="ab-member-name">{member.name}</div>
                 <div className="ab-member-title">{member.role}</div>
@@ -819,7 +843,7 @@ export default function Page() {
         </div>
       </section>
 
-      {/* ── CTA ── */}
+      {/* ── CTA BAND ── */}
       <div className="ab-cta ab-reveal">
         <div>
           <div className="ab-cta-eyebrow">Work with us</div>
@@ -833,9 +857,9 @@ export default function Page() {
             team focus on what actually matters.
           </p>
         </div>
-        <a href="/contact" className="ab-btn-white">
+        <Link href="/contact" className="ab-btn-white">
           Book a Free Call →
-        </a>
+        </Link>
       </div>
     </div>
   );

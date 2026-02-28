@@ -13,40 +13,43 @@ const InfiniteMovingCards = dynamic(
 
 // ─── Global Styles ────────────────────────────────────────────────────────────
 const globalStyles = `
-  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap');
 
   :root {
     --white:   #ffffff;
     --off:     #fafaf8;
-    --surface: #f4f3ef;
-    --border:  #e8e6e0;
-    --border2: #d4d0c8;
-    --ink:     #111110;
-    --ink2:    #3a3935;
-    --muted:   #7a7870;
+    --surface: #f5f4f0;
+    --border:  #e9e7e1;
+    --border2: #d6d2c9;
+    --ink:     #0f0f0e;
+    --ink2:    #38372f;
+    --muted:   #7c7a72;
     --accent:  #e8390e;
     --accent2: #ff6b3d;
     --blue:    #1a56db;
-    --gold:    #d4960a;
-    --shadow-sm: 0 1px 3px rgba(17,17,16,0.06), 0 1px 2px rgba(17,17,16,0.04);
-    --shadow-md: 0 4px 16px rgba(17,17,16,0.08), 0 2px 6px rgba(17,17,16,0.05);
-    --shadow-lg: 0 16px 48px rgba(17,17,16,0.12), 0 4px 16px rgba(17,17,16,0.06);
+    --gold:    #c98a06;
+    --shadow-sm: 0 1px 3px rgba(15,15,14,0.06), 0 1px 2px rgba(15,15,14,0.04);
+    --shadow-md: 0 4px 16px rgba(15,15,14,0.08), 0 2px 6px rgba(15,15,14,0.05);
+    --shadow-lg: 0 16px 48px rgba(15,15,14,0.11), 0 4px 16px rgba(15,15,14,0.06);
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body:    'DM Sans', system-ui, sans-serif;
   }
 
   .ai-page * { box-sizing: border-box; margin: 0; padding: 0; }
   .ai-page {
-    font-family: 'Instrument Sans', sans-serif;
+    font-family: var(--font-body);
     background: var(--white);
     color: var(--ink);
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   /* ── Scroll reveal ── */
   .reveal {
     opacity: 0;
-    transform: translateY(32px);
-    transition: opacity 0.65s cubic-bezier(0.22,1,0.36,1), transform 0.65s cubic-bezier(0.22,1,0.36,1);
+    transform: translateY(28px);
+    transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1);
   }
   .reveal.visible { opacity: 1; transform: translateY(0); }
   .reveal-d1 { transition-delay: 0.1s; }
@@ -75,7 +78,7 @@ const globalStyles = `
     width: 60vw; height: 60vw;
     max-width: 720px; max-height: 720px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(232,57,14,0.055) 0%, rgba(26,86,219,0.03) 50%, transparent 72%);
+    background: radial-gradient(circle, rgba(232,57,14,0.05) 0%, rgba(26,86,219,0.025) 50%, transparent 72%);
     pointer-events: none;
   }
   .hero::after {
@@ -93,10 +96,11 @@ const globalStyles = `
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 100px;
-    padding: 0.35rem 1rem;
-    font-size: 0.72rem;
+    padding: 0.38rem 1rem;
+    font-family: var(--font-body);
+    font-size: 0.7rem;
     font-weight: 500;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.07em;
     text-transform: uppercase;
     color: var(--accent);
     margin-bottom: 2rem;
@@ -105,31 +109,40 @@ const globalStyles = `
     width: 6px; height: 6px;
     border-radius: 50%;
     background: var(--accent);
-    animation: pulse-dot 2s ease-in-out infinite;
+    animation: pulse-dot 2.2s ease-in-out infinite;
   }
   @keyframes pulse-dot {
     0%,100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.45); opacity: 0.65; }
+    50% { transform: scale(1.5); opacity: 0.6; }
   }
 
+  /*
+   * HERO HEADING — DM Serif Display gives an editorial, premium feel.
+   * Slightly italic for the accent word adds refinement without being loud.
+   */
   .hero-brand {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(2.6rem, 5vw, 5rem);
-    font-weight: 800;
-    line-height: 1.0;
-    letter-spacing: -0.035em;
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 5.2vw, 5.2rem);
+    font-weight: 400; /* DM Serif Display is beautiful at normal weight */
+    line-height: 1.05;
+    letter-spacing: -0.01em;
     color: var(--ink);
-    margin-bottom: 1.25rem;
+    margin-bottom: 1.4rem;
   }
-  .hero-brand .line-accent { color: var(--accent); }
+  .hero-brand .line-accent {
+    color: var(--accent);
+    font-style: italic; /* elegant italic in serif = very refined */
+  }
 
   .hero-sub {
-    font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+    font-family: var(--font-body);
+    font-size: clamp(0.95rem, 1.2vw, 1.05rem);
     color: var(--muted);
     font-weight: 400;
-    line-height: 1.75;
+    line-height: 1.8;
     max-width: 440px;
     margin-bottom: 2.5rem;
+    letter-spacing: 0.005em;
   }
 
   .hero-cta-row {
@@ -146,21 +159,21 @@ const globalStyles = `
     background: var(--accent);
     color: #fff;
     border: none;
-    padding: 0.9rem 2rem;
-    border-radius: 7px;
-    font-family: 'Syne', sans-serif;
-    font-size: 0.88rem;
-    font-weight: 700;
+    padding: 0.88rem 2rem;
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 600;
     letter-spacing: 0.02em;
     text-decoration: none;
     cursor: pointer;
     transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 2px 10px rgba(232,57,14,0.22), 0 1px 3px rgba(232,57,14,0.12);
+    box-shadow: 0 2px 10px rgba(232,57,14,0.2), 0 1px 3px rgba(232,57,14,0.1);
   }
   .btn-primary:hover {
     background: #cc2f08;
     transform: translateY(-2px);
-    box-shadow: 0 8px 28px rgba(232,57,14,0.3);
+    box-shadow: 0 8px 28px rgba(232,57,14,0.28);
   }
 
   .btn-secondary {
@@ -170,14 +183,15 @@ const globalStyles = `
     background: transparent;
     color: var(--ink);
     border: 1.5px solid var(--border2);
-    padding: 0.9rem 2rem;
-    border-radius: 7px;
-    font-family: 'Syne', sans-serif;
-    font-size: 0.88rem;
-    font-weight: 600;
+    padding: 0.88rem 2rem;
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 500;
     text-decoration: none;
     cursor: pointer;
     transition: border-color 0.2s, background 0.2s, transform 0.2s;
+    letter-spacing: 0.01em;
   }
   .btn-secondary:hover {
     border-color: var(--ink);
@@ -194,16 +208,20 @@ const globalStyles = `
     flex-wrap: wrap;
   }
   .hero-stat-num {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.8rem;
-    font-weight: 800;
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 400;
     color: var(--ink);
-    letter-spacing: -0.03em;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
   }
   .hero-stat-label {
-    font-size: 0.78rem;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
     color: var(--muted);
-    margin-top: 0.15rem;
+    margin-top: 0.2rem;
+    font-weight: 400;
+    letter-spacing: 0.01em;
   }
 
   .hero-image-frame {
@@ -224,18 +242,18 @@ const globalStyles = `
   .hero-image-card::before {
     content: '';
     position: absolute; inset: 0;
-    background: linear-gradient(135deg, rgba(232,57,14,0.03) 0%, rgba(26,86,219,0.03) 100%);
+    background: linear-gradient(135deg, rgba(232,57,14,0.025) 0%, rgba(26,86,219,0.025) 100%);
   }
 
   /* ── MARQUEE ── */
   .marquee-strip {
     background: var(--ink);
-    padding: 0.85rem 0;
+    padding: 0.9rem 0;
     overflow: hidden;
   }
   .marquee-track {
     display: flex;
-    animation: marquee 28s linear infinite;
+    animation: marquee 30s linear infinite;
     will-change: transform;
   }
   .marquee-item {
@@ -243,15 +261,16 @@ const globalStyles = `
     align-items: center;
     gap: 1rem;
     padding: 0 2.5rem;
-    font-family: 'Syne', sans-serif;
-    font-size: 0.7rem;
-    letter-spacing: 0.18em;
+    font-family: var(--font-body);
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.45);
+    color: rgba(255,255,255,0.4);
     white-space: nowrap;
     border-right: 1px solid rgba(255,255,255,0.07);
+    font-weight: 500;
   }
-  .marquee-dot { color: var(--accent); font-size: 0.45rem; }
+  .marquee-dot { color: var(--accent); font-size: 0.4rem; }
   @keyframes marquee { to { transform: translateX(-50%); } }
 
   /* ── WORKSPACE ── */
@@ -269,9 +288,10 @@ const globalStyles = `
     display: flex;
     align-items: center;
     gap: 0.6rem;
-    font-size: 0.7rem;
+    font-family: var(--font-body);
+    font-size: 0.68rem;
     font-weight: 600;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.13em;
     text-transform: uppercase;
     margin-bottom: 1.2rem;
   }
@@ -283,40 +303,49 @@ const globalStyles = `
   .eyebrow-gold { color: var(--gold); }
   .eyebrow-line-gold { background: var(--gold); }
 
+  /*
+   * Section headings use DM Serif Display — editorial, calm authority.
+   * No excessive weight, no heavy letter-spacing. Pure typographic elegance.
+   */
   .section-h2 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(1.9rem, 3.2vw, 3rem);
-    font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -0.025em;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3.2vw, 3rem);
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
     color: var(--ink);
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.3rem;
   }
   .text-blue { color: var(--blue); }
   .text-accent { color: var(--accent); }
 
   .section-body {
-    font-size: 1rem;
+    font-family: var(--font-body);
+    font-size: 0.97rem;
     color: var(--muted);
-    line-height: 1.8;
+    line-height: 1.85;
     margin-bottom: 2rem;
+    font-weight: 400;
+    letter-spacing: 0.005em;
   }
 
-  .feature-list { display: flex; flex-direction: column; gap: 0.7rem; }
+  .feature-list { display: flex; flex-direction: column; gap: 0.75rem; }
   .feature-item {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    font-size: 0.9rem;
+    font-family: var(--font-body);
+    font-size: 0.88rem;
     color: var(--ink2);
+    font-weight: 400;
   }
   .feature-check {
-    width: 1.3rem; height: 1.3rem;
-    background: rgba(26,86,219,0.08);
+    width: 1.25rem; height: 1.25rem;
+    background: rgba(26,86,219,0.07);
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
-    font-size: 0.62rem;
+    font-size: 0.6rem;
     color: var(--blue);
     font-weight: 700;
   }
@@ -325,7 +354,7 @@ const globalStyles = `
   .workspace-glow {
     position: absolute;
     inset: -4rem;
-    background: radial-gradient(ellipse 65% 55% at 50% 50%, rgba(26,86,219,0.07) 0%, transparent 70%);
+    background: radial-gradient(ellipse 65% 55% at 50% 50%, rgba(26,86,219,0.06) 0%, transparent 70%);
     pointer-events: none;
   }
 
@@ -355,16 +384,16 @@ const globalStyles = `
   .step-card {
     background: var(--white);
     border: 1px solid var(--border);
-    border-radius: 16px;
+    border-radius: 14px;
     padding: 2.5rem 2rem;
     position: relative;
     overflow: hidden;
-    transition: transform 0.25s cubic-bezier(0.22,1,0.36,1), box-shadow 0.25s, border-color 0.25s;
+    transition: transform 0.28s cubic-bezier(0.22,1,0.36,1), box-shadow 0.28s, border-color 0.28s;
     box-shadow: var(--shadow-sm);
     cursor: default;
   }
   .step-card:hover {
-    transform: translateY(-6px);
+    transform: translateY(-5px);
     box-shadow: var(--shadow-lg);
     border-color: var(--accent);
   }
@@ -372,40 +401,43 @@ const globalStyles = `
     content: attr(data-num);
     position: absolute;
     top: 1rem; right: 1.25rem;
-    font-family: 'Syne', sans-serif;
-    font-size: 3.5rem;
-    font-weight: 800;
+    font-family: var(--font-display);
+    font-size: 3.8rem;
+    font-weight: 400;
     color: rgba(232,57,14,0.05);
     line-height: 1;
-    letter-spacing: -0.05em;
+    letter-spacing: -0.02em;
   }
   .step-icon {
-    width: 3rem; height: 3rem;
-    background: rgba(232,57,14,0.07);
-    border-radius: 10px;
+    width: 2.8rem; height: 2.8rem;
+    background: rgba(232,57,14,0.06);
+    border-radius: 9px;
     display: flex; align-items: center; justify-content: center;
     margin-bottom: 1.5rem;
   }
   .step-tag {
-    font-size: 0.68rem;
+    font-family: var(--font-body);
+    font-size: 0.66rem;
     font-weight: 600;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.13em;
     text-transform: uppercase;
     color: var(--accent);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.55rem;
   }
   .step-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.08rem;
-    font-weight: 700;
+    font-family: var(--font-display);
+    font-size: 1.12rem;
+    font-weight: 400;
     color: var(--ink);
-    line-height: 1.3;
+    line-height: 1.35;
     margin-bottom: 0.7rem;
   }
   .step-body {
-    font-size: 0.88rem;
+    font-family: var(--font-body);
+    font-size: 0.86rem;
     color: var(--muted);
-    line-height: 1.75;
+    line-height: 1.8;
+    font-weight: 400;
   }
 
   /* ── EMAIL SECTION ── */
@@ -422,7 +454,7 @@ const globalStyles = `
   /* ── CTA BAND ── */
   .cta-band {
     margin: 0 7vw 5rem;
-    border-radius: 20px;
+    border-radius: 18px;
     background: var(--ink);
     padding: 5rem 5vw;
     display: grid;
@@ -437,42 +469,45 @@ const globalStyles = `
     content: '';
     position: absolute; top: -30%; right: -10%;
     width: 500px; height: 500px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(232,57,14,0.14) 0%, transparent 60%);
+    background: radial-gradient(circle, rgba(232,57,14,0.12) 0%, transparent 60%);
     pointer-events: none;
   }
   .cta-band::after {
     content: '';
     position: absolute; bottom: -40%; left: 20%;
     width: 400px; height: 400px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(26,86,219,0.1) 0%, transparent 60%);
+    background: radial-gradient(circle, rgba(26,86,219,0.08) 0%, transparent 60%);
     pointer-events: none;
   }
   .cta-eyebrow {
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.15em;
+    font-family: var(--font-body);
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.35);
+    color: rgba(255,255,255,0.3);
     margin-bottom: 1rem;
     display: flex; align-items: center; gap: 0.5rem;
   }
-  .cta-eyebrow::before { content: ''; width: 1.5rem; height: 1px; background: rgba(255,255,255,0.25); }
+  .cta-eyebrow::before { content: ''; width: 1.5rem; height: 1px; background: rgba(255,255,255,0.2); }
   .cta-h2 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(1.8rem, 3vw, 2.8rem);
-    font-weight: 800;
+    font-family: var(--font-display);
+    font-size: clamp(1.9rem, 3vw, 2.9rem);
+    font-weight: 400;
     color: var(--white);
-    line-height: 1.1;
-    letter-spacing: -0.025em;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
     max-width: 520px;
     margin-bottom: 1rem;
   }
-  .cta-h2 em { font-style: normal; color: var(--accent2); }
+  .cta-h2 em { font-style: italic; color: var(--accent2); }
   .cta-body {
-    font-size: 0.93rem;
-    color: rgba(255,255,255,0.45);
-    line-height: 1.75;
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    color: rgba(255,255,255,0.4);
+    line-height: 1.8;
     max-width: 440px;
+    font-weight: 400;
   }
   .btn-white {
     display: inline-flex;
@@ -482,18 +517,19 @@ const globalStyles = `
     color: var(--ink);
     border: none;
     padding: 1rem 2.2rem;
-    border-radius: 7px;
-    font-family: 'Syne', sans-serif;
-    font-size: 0.88rem;
-    font-weight: 700;
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 600;
     text-decoration: none;
     cursor: pointer;
     white-space: nowrap;
     transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.16);
     position: relative; z-index: 1;
+    letter-spacing: 0.01em;
   }
-  .btn-white:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(0,0,0,0.22); }
+  .btn-white:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(0,0,0,0.2); }
 
   /* ── TESTIMONIALS ── */
   .testimonials-section {
@@ -516,7 +552,8 @@ const globalStyles = `
     background: rgba(232,57,14,0.07);
     border-radius: 100px;
     padding: 0.3rem 0.9rem;
-    font-size: 0.68rem;
+    font-family: var(--font-body);
+    font-size: 0.66rem;
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -524,18 +561,21 @@ const globalStyles = `
     margin-bottom: 0.75rem;
   }
   .testimonials-h2 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(1.7rem, 2.4vw, 2.4rem);
-    font-weight: 800;
-    letter-spacing: -0.02em;
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 2.4vw, 2.5rem);
+    font-weight: 400;
+    letter-spacing: -0.01em;
     color: var(--ink);
+    line-height: 1.2;
   }
   .testimonials-sub {
+    font-family: var(--font-body);
     color: var(--muted);
-    font-size: 0.88rem;
+    font-size: 0.86rem;
     max-width: 240px;
     text-align: right;
-    line-height: 1.65;
+    line-height: 1.7;
+    font-weight: 400;
   }
   @media(max-width: 640px) { .testimonials-sub { text-align: left; max-width: none; } }
 
@@ -683,7 +723,7 @@ function Page() {
             <Link href="/services" className="btn-primary">
               Explore Services →
             </Link>
-            <Link href="/contact" className="btn-secondary">
+            <Link href="/contact-us" className="btn-secondary">
               Book a Free Call
             </Link>
           </div>

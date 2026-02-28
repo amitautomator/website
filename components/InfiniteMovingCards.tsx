@@ -28,64 +28,83 @@ const cardStyles = `
   }
   .imc-track.paused:hover { animation-play-state: paused; }
 
-  /* ── Card ── */
+  /* ── Card — mirrors homepage .step-card style ── */
   .imc-card {
     position: relative;
     flex-shrink: 0;
     width: 380px;
     max-width: 90vw;
-    background: var(--white, #fff);
-    border: 1px solid var(--border, #e8e6e0);
-    border-radius: 16px;
+    background: #ffffff;
+    border: 1px solid #e9e7e1;
+    border-radius: 14px;
     padding: 2rem;
-    box-shadow: 0 1px 4px rgba(17,17,16,0.06);
-    transition: transform 0.25s cubic-bezier(0.22,1,0.36,1),
-                box-shadow 0.25s cubic-bezier(0.22,1,0.36,1),
-                border-color 0.25s;
+    box-shadow: 0 1px 3px rgba(15,15,14,0.06), 0 1px 2px rgba(15,15,14,0.04);
+    transition: transform 0.28s cubic-bezier(0.22,1,0.36,1),
+                box-shadow 0.28s cubic-bezier(0.22,1,0.36,1),
+                border-color 0.28s;
     overflow: hidden;
+    list-style: none;
   }
   .imc-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 16px 48px rgba(17,17,16,0.1), 0 4px 16px rgba(17,17,16,0.06);
-    border-color: var(--border2, #d4d0c8);
+    box-shadow: 0 16px 48px rgba(15,15,14,0.11), 0 4px 16px rgba(15,15,14,0.06);
+    border-color: #e8390e;
   }
 
-  /* decorative quote mark */
+  /*
+   * Decorative quote mark — DM Serif Display matches the display font used
+   * across all headings. Italic style adds elegance consistent with
+   * the .line-accent technique throughout the site.
+   */
   .imc-quote-mark {
     position: absolute;
-    top: 1.5rem;
+    top: 1.25rem;
     right: 1.75rem;
-    font-family: 'Syne', Georgia, serif;
+    font-family: 'DM Serif Display', Georgia, serif;
     font-size: 5rem;
+    font-style: italic;
     line-height: 1;
-    font-weight: 800;
+    font-weight: 400;
     color: rgba(232,57,14,0.07);
     pointer-events: none;
     user-select: none;
-    letter-spacing: -0.05em;
+    letter-spacing: -0.01em;
   }
 
-  /* quote text */
+  /* Stars */
+  .imc-stars {
+    display: flex;
+    gap: 0.2rem;
+    margin-bottom: 0.75rem;
+  }
+  .imc-star {
+    color: #c98a06;
+    font-size: 0.75rem;
+  }
+
+  /* Quote text — DM Sans body font, matches .section-body */
   .imc-quote {
+    font-family: 'DM Sans', system-ui, sans-serif;
     font-size: 0.9rem;
-    line-height: 1.75;
-    color: var(--ink2, #3a3935);
+    line-height: 1.85;
+    color: #38372f;
     font-weight: 400;
     font-style: italic;
     margin-bottom: 1.5rem;
     position: relative;
     z-index: 1;
+    letter-spacing: 0.005em;
   }
 
-  /* divider */
+  /* Divider */
   .imc-divider {
     width: 100%;
     height: 1px;
-    background: var(--border, #e8e6e0);
+    background: #e9e7e1;
     margin-bottom: 1.25rem;
   }
 
-  /* author row */
+  /* Author row */
   .imc-author {
     display: flex;
     align-items: center;
@@ -94,7 +113,7 @@ const cardStyles = `
     z-index: 1;
   }
 
-  /* avatar */
+  /* Avatar */
   .imc-avatar-wrap {
     position: relative;
     flex-shrink: 0;
@@ -104,8 +123,8 @@ const cardStyles = `
     height: 44px !important;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid var(--white, #fff);
-    box-shadow: 0 2px 8px rgba(17,17,16,0.12);
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 8px rgba(15,15,14,0.12);
     display: block;
   }
   .imc-avatar-ring {
@@ -120,34 +139,29 @@ const cardStyles = `
     transform: scale(1.08);
   }
 
-  /* name & title */
+  /*
+   * Author name — DM Serif Display at weight 400, matches .step-title and
+   * .ab-member-name style across the site. No heavy Syne weight needed.
+   */
   .imc-name {
-    font-family: 'Syne', sans-serif;
-    font-size: 0.92rem;
-    font-weight: 700;
-    color: var(--ink, #111110);
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: #0f0f0e;
     line-height: 1.2;
+    letter-spacing: -0.005em;
     transition: color 0.2s;
   }
-  .imc-card:hover .imc-name { color: var(--accent, #e8390e); }
+  .imc-card:hover .imc-name { color: #e8390e; }
 
+  /* Company — DM Sans body font, matches .ab-member-title scale */
   .imc-company {
-    font-size: 0.76rem;
-    color: var(--muted, #7a7870);
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 0.75rem;
+    color: #7c7a72;
     font-weight: 400;
     margin-top: 0.15rem;
     letter-spacing: 0.01em;
-  }
-
-  /* star row */
-  .imc-stars {
-    display: flex;
-    gap: 0.2rem;
-    margin-bottom: 0.75rem;
-  }
-  .imc-star {
-    color: var(--gold, #d4960a);
-    font-size: 0.75rem;
   }
 `;
 
@@ -175,18 +189,18 @@ const InfiniteMovingCards = ({
 
   useEffect(() => {
     if (containerRef.current && scrollerRef.current && !start) {
-      // clone items for seamless loop
+      // Clone items for seamless loop
       Array.from(scrollerRef.current.children).forEach((item) => {
         scrollerRef.current!.appendChild(item.cloneNode(true));
       });
 
-      // direction
+      // Direction
       containerRef.current.style.setProperty(
         "--imc-direction",
         direction === "left" ? "forwards" : "reverse",
       );
 
-      // speed
+      // Speed
       const durations = { fast: "20s", normal: "40s", slow: "80s" };
       containerRef.current.style.setProperty(
         "--imc-duration",
@@ -203,12 +217,7 @@ const InfiniteMovingCards = ({
       <div ref={containerRef} className={cn("imc-container", className)}>
         <ul
           ref={scrollerRef}
-          className={cn(
-            "imc-track",
-            start &&
-              "animate-[scroll-cards_var(--imc-duration,80s)_linear_infinite]",
-            pauseOnHover && "paused",
-          )}
+          className={cn("imc-track", pauseOnHover && "paused")}
           style={
             start
               ? {
@@ -221,12 +230,12 @@ const InfiniteMovingCards = ({
         >
           {items.map((item) => (
             <li className="imc-card" key={item.name}>
-              {/* decorative big quote mark */}
+              {/* Decorative big quote mark */}
               <span className="imc-quote-mark" aria-hidden="true">
                 "
               </span>
 
-              {/* stars */}
+              {/* Stars */}
               <div className="imc-stars" aria-label="5 stars">
                 {[...Array(5)].map((_, i) => (
                   <span key={i} className="imc-star">
@@ -235,13 +244,13 @@ const InfiniteMovingCards = ({
                 ))}
               </div>
 
-              {/* quote */}
+              {/* Quote */}
               <p className="imc-quote">"{item.quote}"</p>
 
-              {/* divider */}
+              {/* Divider */}
               <div className="imc-divider" />
 
-              {/* author */}
+              {/* Author */}
               <div className="imc-author">
                 <div className="imc-avatar-wrap">
                   <Image

@@ -5,18 +5,26 @@ import Image from "next/image";
 
 // ─── Styles ───────────────────────────────────────────────────────────────────
 const styles = `
-  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:wght@300;400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap');
 
   :root {
     --white:   #ffffff;
     --off:     #fafaf8;
-    --surface: #f4f3ef;
-    --border:  #e8e6e0;
-    --ink:     #111110;
-    --ink2:    #3a3935;
-    --muted:   #7a7870;
+    --surface: #f5f4f0;
+    --border:  #e9e7e1;
+    --border2: #d6d2c9;
+    --ink:     #0f0f0e;
+    --ink2:    #38372f;
+    --muted:   #7c7a72;
     --accent:  #e8390e;
+    --accent2: #ff6b3d;
     --blue:    #1a56db;
+    --gold:    #c98a06;
+    --shadow-sm: 0 1px 3px rgba(15,15,14,0.06), 0 1px 2px rgba(15,15,14,0.04);
+    --shadow-md: 0 4px 16px rgba(15,15,14,0.08), 0 2px 6px rgba(15,15,14,0.05);
+    --shadow-lg: 0 16px 48px rgba(15,15,14,0.11), 0 4px 16px rgba(15,15,14,0.06);
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body:    'DM Sans', system-ui, sans-serif;
   }
 
   /* ── Footer shell ── */
@@ -24,15 +32,16 @@ const styles = `
     background: var(--ink);
     color: var(--off);
     border-top: 1px solid rgba(255,255,255,0.06);
-    font-family: 'Instrument Sans', sans-serif;
+    font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   /* ── Top band ── */
   .ft-top {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 4rem 7vw 3.5rem;
+    padding: 4.5rem 7vw 4rem;
     display: grid;
     grid-template-columns: 1.6fr 1fr 1fr;
     gap: 4rem;
@@ -45,29 +54,41 @@ const styles = `
   .ft-brand { display: flex; flex-direction: column; gap: 1.25rem; }
 
   .ft-logo {
-    display: inline-flex; align-items: center; gap: 0.6rem;
+    display: inline-flex; align-items: center; gap: 0.55rem;
     text-decoration: none;
   }
-  .ft-logo-img { width: 36px !important; height: 36px !important; object-fit: contain; }
+  .ft-logo-img { width: 34px !important; height: 34px !important; object-fit: contain; }
+
+  /*
+   * Logo wordmark — DM Serif Display, mirrors the NavBar logo treatment.
+   * "Ideas" is italic + accent color, matching .line-accent technique.
+   */
   .ft-logo-text {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.1rem; font-weight: 800; letter-spacing: -0.02em;
-    color: var(--off);
+    font-family: var(--font-display);
+    font-size: 1.1rem; font-weight: 400;
+    letter-spacing: -0.01em; color: var(--off);
+    line-height: 1;
   }
-  .ft-logo-text span { color: var(--accent); }
+  .ft-logo-text em {
+    font-style: italic;
+    color: var(--accent);
+  }
 
+  /* Brand body copy */
   .ft-brand-body {
-    font-size: 0.88rem; color: rgba(255,255,255,0.45);
-    line-height: 1.8; max-width: 300px;
+    font-family: var(--font-body);
+    font-size: 0.875rem; color: rgba(255,255,255,0.4);
+    line-height: 1.85; max-width: 300px;
+    font-weight: 400; letter-spacing: 0.005em;
   }
 
-  /* socials */
-  .ft-socials { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.25rem; }
+  /* Socials */
+  .ft-socials { display: flex; flex-wrap: wrap; gap: 0.55rem; margin-top: 0.25rem; }
   .ft-social-link {
     width: 2.1rem; height: 2.1rem;
     background: rgba(255,255,255,0.06);
     border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 8px;
+    border-radius: 7px;
     display: flex; align-items: center; justify-content: center;
     transition: background 0.2s, border-color 0.2s, transform 0.2s;
   }
@@ -76,28 +97,38 @@ const styles = `
     border-color: rgba(232,57,14,0.35);
     transform: translateY(-2px);
   }
-  .ft-social-link img { width: 16px !important; height: 16px !important; object-fit: contain; filter: invert(1); opacity: 0.7; }
+  .ft-social-link img {
+    width: 16px !important; height: 16px !important;
+    object-fit: contain; filter: invert(1); opacity: 0.6;
+  }
   .ft-social-link:hover img { opacity: 1; }
 
   /* ── Link columns ── */
   .ft-col { display: flex; flex-direction: column; gap: 1rem; }
 
+  /*
+   * Column labels — matches the .eyebrow uppercase pattern throughout the site.
+   */
   .ft-col-label {
-    font-family: 'Syne', sans-serif;
-    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
-    color: rgba(255,255,255,0.3);
+    font-family: var(--font-body);
+    font-size: 0.65rem; font-weight: 600;
+    letter-spacing: 0.13em; text-transform: uppercase;
+    color: rgba(255,255,255,0.28);
     padding-bottom: 0.5rem;
     border-bottom: 1px solid rgba(255,255,255,0.06);
   }
 
   .ft-links { display: flex; flex-direction: column; gap: 0.15rem; }
 
+  /* Footer links — DM Sans body font, animated accent underline */
   .ft-link {
-    font-size: 0.88rem; font-weight: 400;
-    color: rgba(255,255,255,0.5);
+    font-family: var(--font-body);
+    font-size: 0.875rem; font-weight: 400;
+    color: rgba(255,255,255,0.45);
     text-decoration: none;
     padding: 0.3rem 0;
     display: flex; align-items: center; gap: 0.4rem;
+    letter-spacing: 0.005em;
     transition: color 0.18s, gap 0.18s;
   }
   .ft-link::before {
@@ -110,26 +141,6 @@ const styles = `
   .ft-link:hover { color: var(--off); gap: 0.6rem; }
   .ft-link:hover::before { width: 12px; }
 
-  /* contact items */
-  .ft-contact-list { display: flex; flex-direction: column; gap: 0.8rem; }
-  .ft-contact-item {
-    display: flex; align-items: flex-start; gap: 0.6rem;
-    font-size: 0.85rem; color: rgba(255,255,255,0.45);
-    text-decoration: none;
-    transition: color 0.18s;
-  }
-  .ft-contact-item:hover { color: rgba(255,255,255,0.75); }
-  .ft-contact-icon {
-    width: 1.5rem; height: 1.5rem; min-width: 1.5rem;
-    background: rgba(232,57,14,0.12);
-    border-radius: 5px;
-    display: flex; align-items: center; justify-content: center;
-    margin-top: 0.05rem;
-  }
-  .ft-contact-icon svg { width: 11px; height: 11px; color: var(--accent); }
-  .ft-contact-val { line-height: 1.4; }
-  .ft-contact-sub { font-size: 0.72rem; color: rgba(255,255,255,0.25); margin-top: 0.05rem; }
-
   /* ── Bottom bar ── */
   .ft-bottom {
     max-width: 1400px;
@@ -141,26 +152,36 @@ const styles = `
     flex-wrap: wrap;
     gap: 0.75rem;
   }
-  @media (max-width: 560px) { .ft-bottom { padding: 1.25rem 1.5rem; flex-direction: column; align-items: flex-start; } }
+  @media (max-width: 560px) {
+    .ft-bottom { padding: 1.25rem 1.5rem; flex-direction: column; align-items: flex-start; }
+  }
 
   .ft-copy {
-    font-size: 0.78rem; color: rgba(255,255,255,0.25);
+    font-family: var(--font-body);
+    font-size: 0.78rem; color: rgba(255,255,255,0.22);
     display: flex; align-items: center; gap: 0.5rem;
+    font-weight: 400; letter-spacing: 0.005em;
   }
-  .ft-copy-dot { width: 3px; height: 3px; border-radius: 50%; background: rgba(255,255,255,0.15); }
+  .ft-copy-dot {
+    width: 3px; height: 3px; border-radius: 50%;
+    background: rgba(255,255,255,0.14);
+  }
 
   .ft-legal { display: flex; align-items: center; gap: 1.25rem; }
   .ft-legal-link {
-    font-size: 0.75rem; color: rgba(255,255,255,0.25);
-    text-decoration: none;
+    font-family: var(--font-body);
+    font-size: 0.75rem; color: rgba(255,255,255,0.22);
+    text-decoration: none; font-weight: 400;
     transition: color 0.18s;
   }
-  .ft-legal-link:hover { color: rgba(255,255,255,0.55); }
+  .ft-legal-link:hover { color: rgba(255,255,255,0.5); }
 
-  /* made-with badge */
+  /* Made-with badge */
   .ft-made {
-    font-size: 0.72rem; color: rgba(255,255,255,0.2);
+    font-family: var(--font-body);
+    font-size: 0.72rem; color: rgba(255,255,255,0.18);
     display: flex; align-items: center; gap: 0.3rem;
+    font-weight: 400;
   }
   .ft-made span { color: var(--accent); }
 `;
@@ -222,12 +243,13 @@ function Footer() {
             <Image
               src="/Logo.png"
               alt="Automate Ideas"
-              width={36}
-              height={36}
+              width={34}
+              height={34}
               className="ft-logo-img"
             />
+            {/* DM Serif Display + italic accent — mirrors NavBar logo */}
             <span className="ft-logo-text">
-              Automate <span>Ideas</span>
+              Automate <em>Ideas</em>
             </span>
           </Link>
 

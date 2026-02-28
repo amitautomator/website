@@ -6,32 +6,37 @@ import Image from "next/image";
 
 // ─── Global Styles ────────────────────────────────────────────────────────────
 const globalStyles = `
-  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap');
 
   :root {
-    --white:    #ffffff;
-    --off:      #fafaf8;
-    --surface:  #f4f3ef;
-    --border:   #e8e6e0;
-    --border2:  #d4d0c8;
-    --ink:      #111110;
-    --ink2:     #3a3935;
-    --muted:    #7a7870;
-    --accent:   #e8390e;
-    --accent2:  #ff6b3d;
-    --blue:     #1a56db;
-    --gold:     #d4960a;
-    --shadow-sm: 0 1px 4px rgba(17,17,16,0.07), 0 1px 2px rgba(17,17,16,0.04);
-    --shadow-md: 0 4px 16px rgba(17,17,16,0.08), 0 2px 6px rgba(17,17,16,0.05);
-    --shadow-lg: 0 16px 48px rgba(17,17,16,0.11), 0 4px 16px rgba(17,17,16,0.06);
+    --white:   #ffffff;
+    --off:     #fafaf8;
+    --surface: #f5f4f0;
+    --border:  #e9e7e1;
+    --border2: #d6d2c9;
+    --ink:     #0f0f0e;
+    --ink2:    #38372f;
+    --muted:   #7c7a72;
+    --accent:  #e8390e;
+    --accent2: #ff6b3d;
+    --blue:    #1a56db;
+    --gold:    #c98a06;
+    --shadow-sm: 0 1px 3px rgba(15,15,14,0.06), 0 1px 2px rgba(15,15,14,0.04);
+    --shadow-md: 0 4px 16px rgba(15,15,14,0.08), 0 2px 6px rgba(15,15,14,0.05);
+    --shadow-lg: 0 16px 48px rgba(15,15,14,0.11), 0 4px 16px rgba(15,15,14,0.06);
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body:    'DM Sans', system-ui, sans-serif;
   }
 
-  .ct-page *, .ct-page *::before, .ct-page *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  .ct-page *, .ct-page *::before, .ct-page *::after {
+    box-sizing: border-box; margin: 0; padding: 0;
+  }
   .ct-page {
-    font-family: 'Instrument Sans', sans-serif;
+    font-family: var(--font-body);
     background: var(--white);
     color: var(--ink);
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
   }
 
@@ -39,7 +44,8 @@ const globalStyles = `
   .ct-reveal {
     opacity: 0;
     transform: translateY(24px);
-    transition: opacity 0.65s cubic-bezier(0.22,1,0.36,1), transform 0.65s cubic-bezier(0.22,1,0.36,1);
+    transition: opacity 0.65s cubic-bezier(0.22,1,0.36,1),
+                transform 0.65s cubic-bezier(0.22,1,0.36,1);
   }
   .ct-reveal.visible { opacity: 1; transform: translateY(0); }
   .ct-rd1 { transition-delay: 0.1s; }
@@ -49,7 +55,7 @@ const globalStyles = `
      HERO
   ════════════════════════════════ */
   .ct-hero {
-    padding: 7rem 7vw 5rem;
+    padding: 7rem 7vw 5.5rem;
     border-bottom: 1px solid var(--border);
     position: relative; overflow: hidden;
   }
@@ -62,46 +68,78 @@ const globalStyles = `
   }
   .ct-hero-inner { max-width: 640px; position: relative; z-index: 1; }
 
+  /* Eyebrow — mirrors homepage .eyebrow */
   .ct-eyebrow {
-    display: inline-flex; align-items: center; gap: 0.55rem;
-    font-size: 0.68rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    font-family: var(--font-body);
+    font-size: 0.68rem; font-weight: 600;
+    letter-spacing: 0.13em; text-transform: uppercase;
     color: var(--accent); margin-bottom: 1.25rem;
   }
-  .ct-eyebrow-bar { width: 1.8rem; height: 1.5px; background: var(--accent); border-radius: 2px; flex-shrink: 0; }
-
-  .ct-hero-h1 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(2.6rem, 5vw, 4.8rem);
-    font-weight: 800; line-height: 1.0; letter-spacing: -0.035em;
-    color: var(--ink); margin-bottom: 1.2rem;
+  .ct-eyebrow-bar {
+    width: 1.8rem; height: 1.5px;
+    background: var(--accent); border-radius: 2px; flex-shrink: 0;
   }
-  .ct-hero-h1 em { font-style: normal; color: var(--accent); }
+
+  /*
+   * Hero heading — DM Serif Display at weight 400, same as homepage .hero-brand.
+   * Italic accent word mirrors .line-accent technique.
+   */
+  .ct-hero-h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 5.2vw, 5rem);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin-bottom: 1.4rem;
+  }
+  .ct-hero-h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  /* Hero sub — mirrors homepage .hero-sub */
   .ct-hero-sub {
-    font-size: clamp(0.95rem, 1.2vw, 1.1rem);
-    color: var(--muted); line-height: 1.75; max-width: 520px;
+    font-family: var(--font-body);
+    font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+    color: var(--muted);
+    line-height: 1.8;
+    font-weight: 400;
+    max-width: 520px;
+    letter-spacing: 0.005em;
   }
 
   /* ════════════════════════════════
      BODY: 2-COL LAYOUT
   ════════════════════════════════ */
   .ct-body {
-    padding: 5rem 7vw 6rem;
+    padding: 5.5rem 7vw 6rem;
     display: grid;
     grid-template-columns: 1fr 1.4fr;
     gap: 5rem;
     align-items: start;
   }
-  @media (max-width: 960px) { .ct-body { grid-template-columns: 1fr; gap: 3.5rem; padding: 4rem 1.5rem 5rem; } }
+  @media (max-width: 960px) {
+    .ct-body { grid-template-columns: 1fr; gap: 3.5rem; padding: 4rem 1.5rem 5rem; }
+  }
 
   /* ── LEFT: Contact info ── */
   .ct-info { display: flex; flex-direction: column; gap: 2rem; }
 
+  /* Info lead — mirrors homepage .section-body */
   .ct-info-lead {
-    font-size: 1rem; color: var(--ink2); line-height: 1.8; font-weight: 400;
+    font-family: var(--font-body);
+    font-size: 0.97rem;
+    color: var(--muted);
+    line-height: 1.85;
+    font-weight: 400;
+    letter-spacing: 0.005em;
   }
 
   .ct-contact-list { display: flex; flex-direction: column; gap: 0.75rem; }
 
+  /* Contact item — mirrors homepage .feature-item style with card treatment */
   .ct-contact-item {
     display: flex; align-items: center; gap: 1rem;
     background: var(--off);
@@ -126,26 +164,33 @@ const globalStyles = `
     overflow: hidden;
   }
   .ct-contact-icon img { width: 22px !important; height: 22px !important; object-fit: contain; }
+
+  /* Contact label — mirrors homepage .eyebrow style at smaller scale */
   .ct-contact-label {
-    font-family: 'Syne', sans-serif;
-    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+    font-family: var(--font-body);
+    font-size: 0.68rem; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
     color: var(--muted); margin-bottom: 0.15rem;
   }
   .ct-contact-value {
-    font-size: 0.95rem; font-weight: 500; color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 0.92rem; font-weight: 500; color: var(--ink);
+    letter-spacing: 0.005em;
   }
 
-  /* divider */
   .ct-divider { width: 100%; height: 1px; background: var(--border); }
 
-  /* trust note */
+  /* Trust note — mirrors homepage .ab-mission blockquote style */
   .ct-trust {
-    background: var(--surface);
+    background: var(--off);
     border: 1px solid var(--border);
     border-left: 3px solid var(--accent);
     border-radius: 0 10px 10px 0;
     padding: 1.25rem 1.5rem;
-    font-size: 0.88rem; color: var(--muted); line-height: 1.7; font-style: italic;
+    font-family: var(--font-body);
+    font-size: 0.9rem; color: var(--muted);
+    line-height: 1.8; font-style: italic; font-weight: 400;
+    letter-spacing: 0.005em;
   }
 
   /* ── RIGHT: Form card ── */
@@ -153,7 +198,7 @@ const globalStyles = `
     background: var(--white);
     border: 1px solid var(--border);
     border-radius: 20px;
-    padding: 2.5rem 2.5rem;
+    padding: 2.5rem;
     box-shadow: var(--shadow-lg);
     position: relative; overflow: hidden;
   }
@@ -166,18 +211,31 @@ const globalStyles = `
   }
 
   .ct-form-header { margin-bottom: 2rem; }
+
+  /* Form eyebrow — matches homepage .eyebrow-blue pattern */
   .ct-form-eyebrow {
-    font-size: 0.65rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--blue); margin-bottom: 0.5rem;
-    display: flex; align-items: center; gap: 0.4rem;
+    font-family: var(--font-body);
+    font-size: 0.68rem; font-weight: 600;
+    letter-spacing: 0.13em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 0.55rem;
+    display: flex; align-items: center; gap: 0.5rem;
   }
-  .ct-form-eyebrow::before { content: ''; width: 1.2rem; height: 1.5px; background: var(--blue); border-radius: 2px; }
-  .ct-form-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.35rem; font-weight: 800; letter-spacing: -0.02em; color: var(--ink);
+  .ct-form-eyebrow::before {
+    content: ''; width: 1.5rem; height: 1.5px;
+    background: var(--blue); border-radius: 2px;
   }
 
-  /* form grid */
+  /*
+   * Form title uses DM Serif Display — matches section headings throughout.
+   */
+  .ct-form-title {
+    font-family: var(--font-display);
+    font-size: 1.6rem; font-weight: 400;
+    letter-spacing: -0.01em; color: var(--ink);
+    line-height: 1.2;
+  }
+
+  /* Form grid */
   .ct-form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -186,27 +244,30 @@ const globalStyles = `
   @media (max-width: 560px) { .ct-form-grid { grid-template-columns: 1fr; } }
   .ct-col-full { grid-column: 1 / -1; }
 
-  /* field */
   .ct-field { display: flex; flex-direction: column; gap: 0.4rem; }
+
+  /* Label — matches homepage .eyebrow at smaller scale */
   .ct-label {
-    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em;
-    color: var(--ink2);
+    font-family: var(--font-body);
+    font-size: 0.75rem; font-weight: 500;
+    letter-spacing: 0.03em; color: var(--ink2);
   }
   .ct-label span { color: var(--accent); margin-left: 0.1rem; }
 
-  /* input / select / textarea */
+  /* Inputs — DM Sans, clean focus ring using accent color */
   .ct-input, .ct-select, .ct-textarea {
     width: 100%;
     background: var(--off);
     border: 1.5px solid var(--border);
     border-radius: 8px;
     padding: 0.72rem 1rem;
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.9rem; color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 0.875rem; color: var(--ink);
     transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
     outline: none;
     appearance: none;
     -webkit-appearance: none;
+    letter-spacing: 0.005em;
   }
   .ct-input::placeholder, .ct-textarea::placeholder { color: var(--muted); }
   .ct-input:focus, .ct-select:focus, .ct-textarea:focus {
@@ -217,39 +278,37 @@ const globalStyles = `
   .ct-input:hover, .ct-select:hover, .ct-textarea:hover {
     border-color: var(--border2);
   }
-  .ct-textarea { resize: vertical; min-height: 110px; line-height: 1.6; }
+  .ct-textarea { resize: vertical; min-height: 110px; line-height: 1.7; }
 
-  /* select wrapper for custom arrow */
   .ct-select-wrap { position: relative; }
   .ct-select-arrow {
     position: absolute; right: 0.9rem; top: 50%; transform: translateY(-50%);
     pointer-events: none; color: var(--muted);
   }
 
-  /* submit button */
+  /* Submit button — mirrors homepage .btn-primary exactly */
   .ct-submit {
     width: 100%;
     display: flex; align-items: center; justify-content: center; gap: 0.5rem;
     margin-top: 0.5rem;
     background: var(--accent); color: #fff; border: none;
     padding: 0.95rem 2rem;
-    border-radius: 8px;
-    font-family: 'Syne', sans-serif;
-    font-size: 0.92rem; font-weight: 700; letter-spacing: 0.02em;
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 0.875rem; font-weight: 600; letter-spacing: 0.02em;
     cursor: pointer;
     transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 2px 10px rgba(232,57,14,0.22);
+    box-shadow: 0 2px 10px rgba(232,57,14,0.2), 0 1px 3px rgba(232,57,14,0.1);
   }
   .ct-submit:hover:not(:disabled) {
-    background: #c93109;
+    background: #cc2f08;
     transform: translateY(-2px);
-    box-shadow: 0 8px 28px rgba(232,57,14,0.3);
+    box-shadow: 0 8px 28px rgba(232,57,14,0.28);
   }
   .ct-submit:disabled { opacity: 0.65; cursor: not-allowed; }
 
-  /* spinner */
   .ct-spinner {
-    width: 16px; height: 16px; border-radius: 50%;
+    width: 15px; height: 15px; border-radius: 50%;
     border: 2px solid rgba(255,255,255,0.35);
     border-top-color: #fff;
     animation: ct-spin 0.7s linear infinite;
@@ -277,26 +336,28 @@ const globalStyles = `
     animation: ct-toast-in 0.35s cubic-bezier(0.22,1,0.36,1);
     position: relative;
   }
-  @keyframes ct-toast-in { from { opacity: 0; transform: translateY(12px) scale(0.97); } }
-
+  @keyframes ct-toast-in {
+    from { opacity: 0; transform: translateY(12px) scale(0.97); }
+  }
   .ct-toast-dot {
-    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 0.3rem;
+    width: 8px; height: 8px; border-radius: 50%;
+    flex-shrink: 0; margin-top: 0.3rem;
   }
   .ct-toast-dot-success { background: #16a34a; }
   .ct-toast-dot-error   { background: var(--accent); }
   .ct-toast-dot-warning { background: var(--gold); }
   .ct-toast-dot-info    { background: var(--blue); }
-
-  .ct-toast-msg { font-size: 0.88rem; color: var(--ink2); line-height: 1.5; flex: 1; }
-
+  .ct-toast-msg {
+    font-family: var(--font-body);
+    font-size: 0.875rem; color: var(--ink2); line-height: 1.5; flex: 1;
+    letter-spacing: 0.005em;
+  }
   .ct-toast-close {
     background: none; border: none; cursor: pointer; padding: 0;
     color: var(--muted); font-size: 1rem; line-height: 1;
     transition: color 0.15s; flex-shrink: 0;
   }
   .ct-toast-close:hover { color: var(--ink); }
-
-  /* left accent bar on toast */
   .ct-toast::before {
     content: '';
     position: absolute; left: 0; top: 0; bottom: 0;
@@ -324,7 +385,7 @@ function useReveal() {
   }, []);
 }
 
-// ── Toast auto-dismiss ────────────────────────────────────────────────────────
+// ── Toast ─────────────────────────────────────────────────────────────────────
 type AlertType = "success" | "error" | "warning" | "info";
 interface AlertItem {
   id: number;
@@ -386,7 +447,6 @@ const interestedOptions = [
   "HRMS",
   "Website",
 ];
-
 const contactItems = [
   {
     label: "Call Us",
@@ -444,11 +504,9 @@ export default function Page() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsPending(true);
-
     const cleaned = Object.fromEntries(
       Object.entries(formData).map(([k, v]) => [k, v.trim()]),
     );
-
     if (!cleaned.name || !cleaned.email || !cleaned.message) {
       addAlert("error", "Please fill in all required fields.");
       setIsPending(false);
@@ -459,7 +517,6 @@ export default function Page() {
       setIsPending(false);
       return;
     }
-
     try {
       addAlert("info", "Sending your message…", 2500);
       await axios.post("/api/contact-us", cleaned, {
@@ -559,7 +616,6 @@ export default function Page() {
 
           <form onSubmit={handleSubmit}>
             <div className="ct-form-grid">
-              {/* Name */}
               <div className="ct-field">
                 <label className="ct-label">
                   Name <span>*</span>
@@ -574,7 +630,6 @@ export default function Page() {
                 />
               </div>
 
-              {/* Contact No */}
               <div className="ct-field">
                 <label className="ct-label">Contact No.</label>
                 <input
@@ -586,7 +641,6 @@ export default function Page() {
                 />
               </div>
 
-              {/* Email */}
               <div className="ct-field">
                 <label className="ct-label">
                   Email <span>*</span>
@@ -601,7 +655,6 @@ export default function Page() {
                 />
               </div>
 
-              {/* Designation */}
               <div className="ct-field">
                 <label className="ct-label">Designation</label>
                 <input
@@ -613,7 +666,6 @@ export default function Page() {
                 />
               </div>
 
-              {/* Company Name */}
               <div className="ct-field">
                 <label className="ct-label">Company Name</label>
                 <input
@@ -625,7 +677,6 @@ export default function Page() {
                 />
               </div>
 
-              {/* Company Size */}
               <div className="ct-field">
                 <label className="ct-label">Company Size</label>
                 <div className="ct-select-wrap">
@@ -665,7 +716,6 @@ export default function Page() {
                 </div>
               </div>
 
-              {/* Interested In */}
               <div className="ct-field ct-col-full">
                 <label className="ct-label">Interested In</label>
                 <div className="ct-select-wrap">
@@ -705,7 +755,6 @@ export default function Page() {
                 </div>
               </div>
 
-              {/* Message */}
               <div className="ct-field ct-col-full">
                 <label className="ct-label">
                   Message <span>*</span>
