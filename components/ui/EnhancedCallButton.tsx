@@ -1,4 +1,5 @@
 import { PhoneCall } from "lucide-react";
+import Link from "next/link";
 
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&display=swap');
@@ -130,14 +131,14 @@ export function EnhancedCallButton() {
           <div className="fcb-ring" aria-hidden="true" />
 
           {/* Button */}
-          <a
+          <Link
             href="tel:+917210756879"
             className="fcb-btn"
             aria-label="Call +91 7210756879"
             title="Call us"
           >
             <PhoneCall />
-          </a>
+          </Link>
 
           {/* Tooltip */}
           <div className="fcb-tooltip" role="tooltip">

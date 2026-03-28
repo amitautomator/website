@@ -847,14 +847,14 @@ export default function Page() {
                 (cat.label === "Security & Support" ? "Support" : cat.label),
           ).length;
           return (
-            <a
+            <Link
               key={cat.id}
               href={`#${cat.id}`}
               className={`sp-cat-tab ${c.tab}`}
             >
               {cat.label}
               <span className={`sp-cat-count ${c.count}`}>{count}</span>
-            </a>
+            </Link>
           );
         })}
       </nav>

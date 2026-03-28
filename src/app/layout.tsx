@@ -32,7 +32,7 @@ export default function RootLayout({
           content="business automation, workflow automation, process optimization, business efficiency, automation services, automate ideas, digital transformation, Whatsapp automation, CRM automation, marketing automation, sales automation, customer service automation, Business process automation, Automate business tasks, Automate workflows, Automate operations, Automate business processes, AutomateBusiness, workflow automation solutions, Automate business solutions, Whatsapp automation services, CRM automation tools, Marketing automation software, Sales automation solutions, Customer service automation tools, Google Sheets automation, spreadsheet automation, automate Google Sheets, business spreadsheet automation, custom Google Sheets solutions, Google Sheets workflow automation, Sheets API integration, automate Excel to Google Sheets, automated reporting with Google Sheets, Google Sheets data integration"
         />
         <meta content="yes" name="apple-mobile-web-app-capable" />
-        <meta content="IE=edge" http-equiv="x-ua-compatible" />
+        <meta content="IE=edge" httpEquiv="x-ua-compatible" />
         <meta
           property="og:title"
           content="Business Automation Services | Automate Ideas"
