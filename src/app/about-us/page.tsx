@@ -10,6 +10,7 @@ import {
   Twitter,
   Globe,
 } from "lucide-react";
+import Image from "next/image";
 
 // ─── Global Styles ────────────────────────────────────────────────────────────
 const globalStyles = `
@@ -783,10 +784,12 @@ export default function Page() {
             >
               <div className="ab-member-photo-wrap">
                 {member.photo ? (
-                  <img
+                  <Image
                     src={member.photo}
                     alt={member.name}
                     className="ab-member-photo"
+                    width={200}
+                    height={200}
                   />
                 ) : (
                   <div className="ab-member-avatar-placeholder">
