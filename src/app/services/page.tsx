@@ -975,10 +975,17 @@ export default function Page() {
             can save your team the most time and grow your business fastest.
           </p>
         </div>
-        <Link href="/contact" className="sp-btn-white">
+
+        <Link
+          href={BOOK_CALL_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="nb-cta"
+        >
           Book a Free Call →
         </Link>
       </div>
     </div>
   );
 }
+const BOOK_CALL_URL = "https://calendar.app.google/tQGZDNw8JgBJekHeA";

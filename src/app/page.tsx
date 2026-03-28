@@ -11,6 +11,8 @@ const InfiniteMovingCards = dynamic(
   { ssr: false },
 );
 
+const BOOK_CALL_URL = "https://calendar.app.google/tQGZDNw8JgBJekHeA";
+
 // ─── Global Styles ────────────────────────────────────────────────────────────
 const globalStyles = `
   @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap');
@@ -723,7 +725,12 @@ function Page() {
             <Link href="/services" className="btn-primary">
               Explore Services →
             </Link>
-            <Link href="/contact-us" className="btn-secondary">
+            <Link
+              href={BOOK_CALL_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="nb-cta btn-secondary"
+            >
               Book a Free Call
             </Link>
           </div>

@@ -884,13 +884,20 @@ export default function Page() {
             team focus on what actually matters.
           </p>
         </div>
-        <Link href="/contact" className="ab-btn-white">
+        <Link
+          href={BOOK_CALL_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="nb-cta ab-btn-white"
+        >
           Book a Free Call →
         </Link>
       </div>
     </div>
   );
 }
+
+const BOOK_CALL_URL = "https://calendar.app.google/tQGZDNw8JgBJekHeA";
 
 import type { SVGProps } from "react";
 

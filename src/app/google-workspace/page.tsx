@@ -18,6 +18,8 @@ import {
   Layers,
 } from "lucide-react";
 
+const BOOK_CALL_URL = "https://calendar.app.google/tQGZDNw8JgBJekHeA";
+
 // ─── Global Styles ────────────────────────────────────────────────────────────
 const globalStyles = `
   @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap');
@@ -1399,7 +1401,12 @@ export default function Page() {
             show you exactly where automation can save the most time and money.
           </p>
         </div>
-        <Link href="/contact-us" className="gw-btn-white">
+        <Link
+          href={BOOK_CALL_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="nb-cta gw-btn-white"
+        >
           Book a Free Call →
         </Link>
       </div>
