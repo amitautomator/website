@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
+
 import {
   BarChart3,
   Clock,
@@ -11,11 +11,8 @@ import {
   Mail,
   MessageCircle,
   Repeat,
-  ShieldCheck,
   Table,
   Zap,
-  ArrowRight,
-  CheckCircle2,
   TrendingUp,
   Users,
   Layers,
