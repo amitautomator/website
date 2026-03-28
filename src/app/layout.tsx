@@ -3,7 +3,8 @@ import "./globals.css";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import { EnhancedCallButton } from "@/components/ui/EnhancedCallButton";
-
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next";
 const roboto = Roboto({
   subsets: ["latin"],
   weight: ["400", "700"],
@@ -96,6 +97,8 @@ export default function RootLayout({
         {children}
         <Footer />
         <EnhancedCallButton />
+        <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
