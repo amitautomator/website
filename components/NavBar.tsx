@@ -352,6 +352,8 @@ const navStyles = `
 `;
 
 // ── Data ──────────────────────────────────────────────────────────────────────
+const BOOK_CALL_URL = "https://calendar.app.google/tQGZDNw8JgBJekHeA";
+
 const navMenu = ["Home", "Services", "Pricing", "About Us", "Contact Us"];
 
 function getPath(item: string, index: number) {
@@ -425,7 +427,12 @@ function NavBar() {
           </nav>
 
           {/* ── Desktop CTA ── */}
-          <Link href="/contact-us" className="nb-cta">
+          <Link
+            href={BOOK_CALL_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="nb-cta"
+          >
             Book a Free Call →
           </Link>
 
@@ -500,7 +507,9 @@ function NavBar() {
             {/* Footer CTA */}
             <div className="nb-drawer-footer">
               <Link
-                href="/contact-us"
+                href={BOOK_CALL_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="nb-drawer-cta"
                 onClick={() => setOpen(false)}
               >

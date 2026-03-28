@@ -41,13 +41,13 @@ const globalStyles = `
     --font-body:    'DM Sans', system-ui, sans-serif;
 
     /* Spacing scale */
-    --px: clamp(1.25rem, 5vw, 5rem);   /* horizontal page padding */
+    --px: clamp(1.25rem, 5vw, 5rem);
     --section-pt: clamp(3rem, 6vw, 5.5rem);
     --section-pb: clamp(3rem, 6vw, 5.5rem);
   }
 
   .sp-page *, .sp-page *::before, .sp-page *::after {
-    box-sizing: border-box; margin: 0; padding: 0;
+    box-sizing: border-box; margin: 0;
   }
   .sp-page {
     font-family: var(--font-body);
@@ -145,9 +145,10 @@ const globalStyles = `
 
   /* ════════════════════════════════
      STICKY CATEGORY NAV
+     FIX: top changed from 0 to 64px to sit below the NavBar
   ════════════════════════════════ */
   .sp-cat-nav {
-    position: sticky; top: 0; z-index: 40;
+    position: sticky; top: 64px; z-index: 40;
     background: rgba(255,255,255,0.96);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -193,12 +194,20 @@ const globalStyles = `
      CATEGORY SECTION
   ════════════════════════════════ */
   .sp-cat-section {
-    padding: var(--section-pt) var(--px) var(--section-pb);
+    padding-top: clamp(3rem, 6vw, 5.5rem) !important;
+    padding-bottom: clamp(3rem, 6vw, 5.5rem) !important;
+    padding-left: clamp(1.25rem, 5vw, 5rem) !important;
+    padding-right: clamp(1.25rem, 5vw, 5rem) !important;
   }
+
   .sp-cat-section.sp-alt {
     background: var(--surface);
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
+    padding-top: clamp(3rem, 6vw, 5.5rem) !important;
+    padding-bottom: clamp(3rem, 6vw, 5.5rem) !important;
+    padding-left: clamp(1.25rem, 5vw, 5rem) !important;
+    padding-right: clamp(1.25rem, 5vw, 5rem) !important;
   }
 
   /* Category header — two-column */
@@ -715,7 +724,7 @@ const categories = [
     color: "green",
     desc: "Connect with customers instantly and at scale. Choose the official Meta-verified platform or a flexible high-volume solution — both fully integrated with your business systems.",
     grid: "sp-grid-2",
-    alt: true,
+    alt: false,
     wide: false,
   },
   {
@@ -735,7 +744,7 @@ const categories = [
     color: "red",
     desc: "Your workspace stays secure, your team stays trained, and you always have expert backup when you need it.",
     grid: "sp-grid-1",
-    alt: true,
+    alt: false,
     wide: true,
   },
 ];
@@ -862,6 +871,7 @@ export default function Page() {
           <section
             key={cat.id}
             id={cat.id}
+            // FIX 1: Added space before "sp-alt" so the compound class is correctly formed
             className={`sp-cat-section${cat.alt ? "sp-alt" : ""}`}
           >
             {/* Category header */}

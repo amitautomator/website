@@ -832,7 +832,12 @@ function Page() {
               data-num={step.num}
             >
               <div className="step-icon">
-                <Image src={step.img} alt={step.title} width={26} height={26} />
+                <Image
+                  src={step.img}
+                  alt={step.title}
+                  width={450}
+                  height={450}
+                />
               </div>
               <div className="step-tag">Step {step.num}</div>
               <div className="step-title">{step.title}</div>
